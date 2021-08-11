@@ -8,6 +8,9 @@ module.exports = {
   mode,
   resolve: {
     extensions: ['.js', '.jsx'],
+    alias: {
+      components: path.resolve(__dirname, 'src/components'),
+    },
   },
   output: {
     path: path.join(__dirname, 'dist', 'public'),
@@ -16,12 +19,15 @@ module.exports = {
   devServer: {
     compress: true,
     port: 8080,
-    host: '0.0.0.0',
+    host: 'localhost',
     publicPath: '/assets/',
+    contentBase: path.join(__dirname, '/src'),
     historyApiFallback: true,
   },
   plugins: [
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'styles.css',
+    }),
   ],
   module: {
     rules: [
@@ -29,6 +35,10 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: 'babel-loader',
+      },
+      {
+        test: /\.jpg?$/,
+        type: 'asset',
       },
       {
         test: /\.s[ac]ss$/i,
