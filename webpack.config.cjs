@@ -10,6 +10,8 @@ module.exports = {
     extensions: ['.js', '.jsx'],
     alias: {
       components: path.resolve(__dirname, 'src/components'),
+      routes: path.resolve(__dirname, 'src/routes.js'),
+      storage: path.resolve(__dirname, 'src/storage.js'),
     },
   },
   output: {
@@ -23,6 +25,9 @@ module.exports = {
     publicPath: '/assets/',
     contentBase: path.join(__dirname, '/src'),
     historyApiFallback: true,
+    proxy: {
+      '/api': 'http://localhost:5000',
+    },
   },
   plugins: [
     new MiniCssExtractPlugin({
