@@ -1,8 +1,15 @@
-import React from 'react';
-import { render } from 'react-dom';
 import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
 import '../assets/application.scss';
+import React from 'react';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import store from './reducers';
 import App from './App.jsx';
 
-render(<App />, document.getElementById('chat'));
+render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('chat'),
+);

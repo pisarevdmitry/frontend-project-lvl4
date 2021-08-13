@@ -1,18 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import storage from 'storage';
+import UserContext from 'context';
 
 const GuestOnlyRoute = ({ children, path }) => {
-  const [isAuthorized, setIsAuthorized] = useState('initiated');
-  useEffect(() => {
-    if (localStorage.getItem(storage.getTokenKey())) {
-      setIsAuthorized('success');
-    } else {
-      setIsAuthorized('failure');
-    }
-  }, []);
-  if (isAuthorized === 'initiated') return null;
-  if (isAuthorized === 'success') return <Redirect to={path} />;
+  const { user } = useContext(UserContext);
+  if (user) return <Redirect to={path} />;
   return children;
 };
 

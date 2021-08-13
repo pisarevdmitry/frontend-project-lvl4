@@ -10,8 +10,11 @@ module.exports = {
     extensions: ['.js', '.jsx'],
     alias: {
       components: path.resolve(__dirname, 'src/components'),
+      actions: path.resolve(__dirname, 'src/actions'),
+      selectors: path.resolve(__dirname, 'src/selectors'),
       routes: path.resolve(__dirname, 'src/routes.js'),
       storage: path.resolve(__dirname, 'src/storage.js'),
+      context: path.resolve(__dirname, 'src/context.js'),
     },
   },
   output: {

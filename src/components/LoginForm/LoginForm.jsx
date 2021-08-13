@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import { withRouter } from 'react-router';
 import _ from 'lodash';
 import axios from 'axios';
+import UserContext from 'context';
 import apiRoutes from 'routes';
 import storage from 'storage';
 
@@ -13,11 +14,15 @@ const schema = yup.object().shape({
 });
 
 const LoginForm = ({ history }) => {
+  const { updateUser } = useContext(UserContext);
   const submit = useCallback(
     ({ userName: username, password }, { setSubmitting, setErrors }) => {
       axios.post(apiRoutes.loginPath(), { username, password })
         .then(({ data }) => {
-          localStorage.setItem(storage.getTokenKey(), data.token);
+          const user = { token: data.token, userName: data.username };
+          localStorage.setItem(storage.getTokenKey(),
+            JSON.stringify(user));
+          updateUser(user);
           history.push('/');
         })
         .catch(() => {
