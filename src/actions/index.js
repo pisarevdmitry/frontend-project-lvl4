@@ -1,4 +1,4 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import routes from 'routes';
 
@@ -8,3 +8,4 @@ export const loadData = createAsyncThunk('fetchData', async (token) => {
   const responce = await axios.get(route, { headers: { Authorization: `Bearer ${token}` } });
   return responce.data;
 });
+export const addMessage = createAction('ADD_MESSAGE');
