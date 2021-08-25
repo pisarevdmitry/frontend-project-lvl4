@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loadData } from 'actions';
+import { loadData, changeChannel, addChannel } from 'actions';
 
 const channelSlice = createSlice({
   name: 'channelsInfo',
@@ -10,6 +10,13 @@ const channelSlice = createSlice({
       state.channels = payload.channels;
       state.loaded = true;
       state.currentChannelId = payload.currentChannelId;
+    });
+    buider.addCase(changeChannel, (state, { payload }) => {
+      state.currentChannelId = payload.id;
+    });
+    buider.addCase(addChannel, (state, { payload }) => {
+      state.channels.push(payload.channel);
+      state.currentChannelId = payload.channel.id;
     });
   },
 });

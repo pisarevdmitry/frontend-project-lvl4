@@ -9,3 +9,7 @@ export const loadData = createAsyncThunk('fetchData', async (token) => {
   return responce.data;
 });
 export const addMessage = createAction('ADD_MESSAGE');
+export const changeChannel = createAction('CHANGE_CHANNEL');
+export const openModal = createAction('OPEN_MODAL');
+export const closeModal = createAction('CLOSE_MODAL');
+export const addChannel = createAction('ADD_CHANNEL');

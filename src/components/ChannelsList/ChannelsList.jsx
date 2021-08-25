@@ -1,14 +1,17 @@
 import React from 'react';
+import Channel from 'components/Channel';
 
-const ChannelsList = ({ channels, current }) => (
+const ChannelsList = ({ channels, current, changeChannel }) => (
   <ul className="nav flex-column nav-pills nav-fill px-2">
-    {channels.map(({ id, name }) => (
-      <li className="nav-item w-100" key={id}>
-        <button type="button" className={`w-100 rounded-0 text-start btn ${id === current && 'btn-secondary'}`}>
-          <span className="me-1">#</span>
-          {name}
-        </button>
-      </li>
+    {channels.map(({ name, id, removable }) => (
+      <Channel
+        key={id}
+        removable={removable}
+        name={name}
+        id={id}
+        current={current}
+        changeChannel={changeChannel}
+      />
     ))}
   </ul>
 );

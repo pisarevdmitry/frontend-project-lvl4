@@ -1,8 +1,10 @@
 import React from 'react';
 
-const UserContext = React.createContext({
+export const UserContext = React.createContext({
   user: null,
   updateUser: () => {},
 });
 
-export default UserContext;
+export const SocketContext = React.createContext({
+  socket: null,
+});

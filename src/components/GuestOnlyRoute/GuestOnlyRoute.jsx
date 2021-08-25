@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import UserContext from 'context';
+import { UserContext } from 'context';
 
-const GuestOnlyRoute = ({ children, path }) => {
+const GuestOnlyRoute = ({ children, redirectPath }) => {
   const { user } = useContext(UserContext);
-  if (user) return <Redirect to={path} />;
+  if (user) return <Redirect to={redirectPath} />;
   return children;
 };
 

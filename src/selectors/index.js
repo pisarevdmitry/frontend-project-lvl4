@@ -21,3 +21,11 @@ export const getCurrentChannelName = createSelector(
     return currentChannel?.name;
   },
 );
+export const getModalStatus = (state) => (
+  { isOpened: state.modal.isOpened, type: state.modal.type }
+);
+
+export const getChannelsNames = createSelector(
+  getChannels,
+  (channels) => channels.map((channel) => channel.name),
+);
