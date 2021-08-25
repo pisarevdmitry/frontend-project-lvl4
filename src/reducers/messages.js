@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loadData, addMessage } from 'actions';
+import { loadData, addMessage, deleteChannel } from 'actions';
 
 const messagesSlice = createSlice({
   name: 'messagesInfo',
@@ -11,6 +11,9 @@ const messagesSlice = createSlice({
     });
     buider.addCase(addMessage, (state, { payload }) => {
       state.messages.push(payload.message);
+    });
+    buider.addCase(deleteChannel, (state, { payload }) => {
+      state.messages = state.messages.filter(({ channelId }) => channelId !== payload.id);
     });
   },
 });

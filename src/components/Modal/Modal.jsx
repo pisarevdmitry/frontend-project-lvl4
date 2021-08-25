@@ -4,11 +4,21 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getModalStatus } from 'selectors';
 import { closeModal } from 'actions';
 import AddChannel from 'components/AddChannel';
+import RenameChannel from 'components/RenameChannel';
+import DeleteChannel from 'components/DeleteChannel';
 
 const modalTypeMapping = {
   addChannel: {
     headerText: 'Добавить канал',
     component: AddChannel,
+  },
+  renameChannel: {
+    headerText: 'Переименовать канал',
+    component: RenameChannel,
+  },
+  deleteChannel: {
+    headerText: 'Удалить канал',
+    component: DeleteChannel,
   },
 };
 
@@ -26,7 +36,7 @@ const Modal = () => {
         <BootstrapModal.Title>{modalData?.headerText}</BootstrapModal.Title>
       </BootstrapModal.Header>
       <BootstrapModal.Body>
-        {modalData?.component && <modalData.component onReject={handleClose} />}
+        {modalData?.component && <modalData.component close={handleClose} />}
       </BootstrapModal.Body>
     </BootstrapModal>
   );

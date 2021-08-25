@@ -13,6 +13,8 @@ import {
   changeChannel as changeChannelAction,
   openModal,
   addChannel as addChannelAction,
+  renameChannel as renameChannelAction,
+  deleteChannel as deleteChannelAction,
 } from 'actions';
 import { Button } from 'react-bootstrap';
 import ChannelsList from 'components/ChannelsList';
@@ -35,12 +37,21 @@ const Chat = () => {
     socket.connect();
     socket.on('newMessage', (message) => dispatch(addMessageAction({ message })));
     socket.on('newChannel', (channel) => dispatch(addChannelAction({ channel })));
+    socket.on('renameChannel', (channel) => dispatch(renameChannelAction({ channel })));
+    socket.on('removeChannel', ({ id }) => dispatch(deleteChannelAction({ id })));
     return () => {
       socket.disconnect();
     };
   }, []);
   const addChannel = useCallback(
     () => dispatch(openModal({ type: 'addChannel' })), [],
+  );
+  const renameChannel = useCallback(
+    (id) => dispatch(openModal({ type: 'renameChannel', extra: { channelId: id } })), [],
+  );
+  const deleteChannel = useCallback(
+    (id) => dispatch(openModal({ type: 'deleteChannel', extra: { channelId: id } })), [],
+    [],
   );
   const emitMessage = useCallback(
     ({ message }, actions) => {
@@ -73,6 +84,8 @@ const Chat = () => {
             changeChannel={changeChannel}
             channels={channels}
             current={currentChannelId}
+            onRename={renameChannel}
+            onDelete={deleteChannel}
           />
         </div>
         <div className="col p-0 h-100">

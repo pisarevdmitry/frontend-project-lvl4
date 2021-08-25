@@ -29,3 +29,12 @@ export const getChannelsNames = createSelector(
   getChannels,
   (channels) => channels.map((channel) => channel.name),
 );
+export const getExtraData = (state) => state.modal.extraData;
+export const getRenamingChannel = createSelector(
+  getChannels,
+  getExtraData,
+  (channels, { channelId }) => {
+    const channel = _.find(channels, (channelItem) => channelItem.id === channelId);
+    return channel;
+  },
+);

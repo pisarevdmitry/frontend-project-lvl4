@@ -4,27 +4,28 @@ import { Formik, Form, Field } from 'formik';
 import { Button } from 'react-bootstrap';
 import cn from 'classnames';
 import * as yup from 'yup';
-import { getChannelsNames } from 'selectors';
+import { getChannelsNames, getRenamingChannel } from 'selectors';
 import { SocketContext } from 'context';
 
-const AddChannel = ({ close }) => {
+const RenameChannel = ({ close }) => {
   const channelsNames = useSelector(getChannelsNames);
+  const renamingChannel = useSelector(getRenamingChannel);
   const { socket } = useContext(SocketContext);
-  const addChannel = useCallback(
+  const renameChannel = useCallback(
     ({ name }) => {
-      socket.emit('newChannel', { name }, (() => close()));
+      socket.emit('renameChannel', { name, id: renamingChannel.id }, (() => close()));
     },
     [],
   );
   return (
     <Formik
-      initialValues={{ name: '' }}
+      initialValues={{ name: renamingChannel.name }}
       validationSchema={yup.object().shape({
         name: yup.mixed().required().notOneOf(channelsNames),
       })}
       validateOnChange={false}
       validateOnBlur={false}
-      onSubmit={addChannel}
+      onSubmit={renameChannel}
     >
       {({ errors, isSubmitting }) => (
         <Form>
@@ -43,4 +44,4 @@ const AddChannel = ({ close }) => {
   );
 };
 
-export default AddChannel;
+export default RenameChannel;

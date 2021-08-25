@@ -2,14 +2,11 @@ import React, { useCallback } from 'react';
 import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 
 const Channel = ({
-  name, id, changeChannel, current, removable,
+  name, id, changeChannel, current, removable, onRename, onDelete,
 }) => {
-  const handleClick = useCallback(
-    () => {
-      changeChannel(id);
-    },
-    [id, changeChannel],
-  );
+  const handleClick = useCallback(() => changeChannel(id), [id, changeChannel]);
+  const handleRename = useCallback(() => onRename(id), [id]);
+  const handleDelete = useCallback(() => onDelete(id), [id]);
   const isCurrent = id === current;
   if (removable) {
     return (
@@ -21,8 +18,8 @@ const Channel = ({
           </Button>
           <Dropdown.Toggle split variant={isCurrent && 'secondary'} id="dropdown-split-basic" />
           <Dropdown.Menu>
-            <Dropdown.Item>Удалить</Dropdown.Item>
-            <Dropdown.Item>Переименовать</Dropdown.Item>
+            <Dropdown.Item onClick={handleDelete}>Удалить</Dropdown.Item>
+            <Dropdown.Item onClick={handleRename}>Переименовать</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
 
