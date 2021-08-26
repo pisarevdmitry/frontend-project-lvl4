@@ -21,7 +21,7 @@ const RenameChannel = ({ close }) => {
     <Formik
       initialValues={{ name: renamingChannel.name }}
       validationSchema={yup.object().shape({
-        name: yup.mixed().required().notOneOf(channelsNames),
+        name: yup.string().required().min(3).notOneOf(channelsNames),
       })}
       validateOnChange={false}
       validateOnBlur={false}

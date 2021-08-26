@@ -3,7 +3,6 @@ import { Formik, Form, Field } from 'formik';
 import { Button } from 'react-bootstrap';
 import * as yup from 'yup';
 import cn from 'classnames';
-import { withRouter } from 'react-router';
 import _ from 'lodash';
 import axios from 'axios';
 import { UserContext } from 'context';
@@ -15,7 +14,7 @@ const schema = yup.object().shape({
   password: yup.string().required('Неверные имя пользователя или пароль'),
 });
 
-const LoginForm = ({ history }) => {
+const LoginForm = () => {
   const { updateUser } = useContext(UserContext);
   const submit = useCallback(
     ({ userName: username, password }, { setSubmitting, setErrors }) => {
@@ -25,7 +24,6 @@ const LoginForm = ({ history }) => {
           localStorage.setItem(storage.getTokenKey(),
             JSON.stringify(user));
           updateUser(user);
-          history.push('/');
         })
         .catch(() => {
           setSubmitting(false);
@@ -65,4 +63,4 @@ const LoginForm = ({ history }) => {
   );
 };
 
-export default withRouter(LoginForm);
+export default LoginForm;

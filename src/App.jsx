@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import storage from 'storage';
@@ -20,6 +20,13 @@ const socket = io(window.location.host, { autoConnect: false });
 
 const App = () => {
   const [user, updateUser] = useState(getUserData());
+  const logout = useCallback(
+    () => {
+      localStorage.removeItem(storage.getTokenKey());
+      updateUser(null);
+    },
+    [user],
+  );
   return (
     <UserContext.Provider value={{ user, updateUser }}>
       <SocketContext.Provider value={{ socket }}>
@@ -28,13 +35,13 @@ const App = () => {
             <Switch>
               <Route exact path="/">
                 <PrivateRoute redirectPath="/login">
-                  <Header />
+                  <Header user={user} logout={logout} />
                   <Chat />
                 </PrivateRoute>
               </Route>
               <Route exact path="/login">
                 <GuestOnlyRoute redirectPath="/">
-                  <Header />
+                  <Header user={user} logout={logout} />
                   <LoginPage />
                 </GuestOnlyRoute>
               </Route>
