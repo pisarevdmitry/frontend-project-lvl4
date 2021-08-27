@@ -1,4 +1,6 @@
-import React, { useCallback, useContext } from 'react';
+import React, {
+  useCallback, useContext, useRef, useEffect,
+} from 'react';
 import { Formik, Form, Field } from 'formik';
 import { Button } from 'react-bootstrap';
 import * as yup from 'yup';
@@ -16,6 +18,10 @@ const schema = yup.object().shape({
 
 const LoginForm = () => {
   const { updateUser } = useContext(UserContext);
+  const inputEl = useRef(null);
+  useEffect(() => {
+    inputEl.current.focus();
+  }, []);
   const submit = useCallback(
     ({ userName: username, password }, { setSubmitting, setErrors }) => {
       axios.post(apiRoutes.loginPath(), { username, password })
@@ -46,7 +52,7 @@ const LoginForm = () => {
           <Form className="col-12 col-md-6 mt-3 mt-mb-0">
             <h1 className="text-center mb-4">Войти</h1>
             <div className="form-floating mb-3 form-group">
-              <Field name="userName" className={cn('form-control', { 'is-invalid': hasErrors })} required placeholder="Ваш ник" id="userName" />
+              <Field innerRef={inputEl} name="userName" className={cn('form-control', { 'is-invalid': hasErrors })} required placeholder="Ваш ник" id="userName" />
               <label htmlFor="userName">Ваш ник</label>
             </div>
             <div className="form-floating mb-4 form-group">

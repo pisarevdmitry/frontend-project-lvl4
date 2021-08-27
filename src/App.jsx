@@ -8,6 +8,7 @@ import GuestOnlyRoute from 'components/GuestOnlyRoute';
 import Header from 'components/Header';
 import Chat from 'components/Chat';
 import LoginPage from 'components/LoginPage';
+import SignUpPage from 'components/SignUpPage';
 import NotFoundPage from 'components/NotFoundPage';
 import Modal from 'components/Modal';
 
@@ -43,6 +44,12 @@ const App = () => {
                 <GuestOnlyRoute redirectPath="/">
                   <Header user={user} logout={logout} />
                   <LoginPage />
+                </GuestOnlyRoute>
+              </Route>
+              <Route exact path="/signup">
+                <GuestOnlyRoute redirectPath="/">
+                  <Header user={user} logout={logout} />
+                  <SignUpPage />
                 </GuestOnlyRoute>
               </Route>
               <Route path="*">
