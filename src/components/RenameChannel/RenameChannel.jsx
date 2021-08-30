@@ -1,6 +1,9 @@
-import React, { useCallback, useContext } from 'react';
+import React, {
+  useCallback, useContext, useRef, useEffect,
+} from 'react';
 import { useSelector } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { Button } from 'react-bootstrap';
 import cn from 'classnames';
 import * as yup from 'yup';
@@ -10,18 +13,25 @@ import { SocketContext } from 'context';
 const RenameChannel = ({ close }) => {
   const channelsNames = useSelector(getChannelsNames);
   const renamingChannel = useSelector(getRenamingChannel);
+  const { t } = useTranslation();
   const { socket } = useContext(SocketContext);
+  const inputEl = useRef(null);
   const renameChannel = useCallback(
     ({ name }) => {
       socket.emit('renameChannel', { name, id: renamingChannel.id }, (() => close()));
     },
     [],
   );
+  useEffect(() => {
+    inputEl.current.focus();
+    inputEl.current.select();
+  }, []);
   return (
     <Formik
       initialValues={{ name: renamingChannel.name }}
       validationSchema={yup.object().shape({
-        name: yup.string().required().min(3).notOneOf(channelsNames),
+        name: yup.string().required().min(3, 'errors.range').max(20, 'errors.range')
+          .notOneOf(channelsNames),
       })}
       validateOnChange={false}
       validateOnBlur={false}
@@ -30,12 +40,12 @@ const RenameChannel = ({ close }) => {
       {({ errors, isSubmitting }) => (
         <Form>
           <div className="form-group">
-            <Field name="name" className={cn('mb-2', 'form-control', { 'is-invalid': errors.name })} />
+            <Field data-testid="rename-channel" innerRef={inputEl} name="name" className={cn('mb-2', 'form-control', { 'is-invalid': errors.name })} />
           </div>
-          {errors.name && <div className="invalid-feedback d-block">Должно быть уникальным</div>}
+          {errors.name && <div className="invalid-feedback d-block">{t(errors.name)}</div>}
           <div className="d-flex justify-content-end">
-            <Button disabled={isSubmitting} variant="secondary" onClick={close} className="me-2">Отменить</Button>
-            <Button disabled={isSubmitting} type="submit">Отправить</Button>
+            <Button disabled={isSubmitting} variant="secondary" onClick={close} className="me-2">{t('buttons.cancel')}</Button>
+            <Button disabled={isSubmitting} type="submit">{t('buttons.send')}</Button>
           </div>
         </Form>
       )}

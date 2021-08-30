@@ -1,23 +1,19 @@
 import React, {
-  useCallback, useContext, useRef, useEffect,
+  useCallback, useContext, useRef, useEffect, useMemo,
 } from 'react';
 import { Formik, Form, Field } from 'formik';
-import { Button } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
+import { Button } from 'react-bootstrap';
 import cn from 'classnames';
 import axios from 'axios';
 import { UserContext } from 'context';
 import apiRoutes from 'routes';
 import storage from 'storage';
 
-const schema = yup.object().shape({
-  userName: yup.string().required().min(3).max(20),
-  password: yup.string().required().min(6),
-  confirmPassword: yup.string().oneOf([yup.ref('password')], 'Passwords must match'),
-});
-
 const SignUpForm = () => {
   const { updateUser } = useContext(UserContext);
+  const { t } = useTranslation();
   const inputEl = useRef(null);
   useEffect(() => {
     inputEl.current.focus();
@@ -35,12 +31,17 @@ const SignUpForm = () => {
           console.log(e.response.data);
           if (e.response.data.statusCode === 409) {
             setSubmitting(false);
-            setErrors({ network: 'Такой пользователь уже существует' });
+            setErrors({ network: 'errors.exists' });
           }
         });
     },
     [],
   );
+  const schema = useMemo(() => yup.object().shape({
+    userName: yup.string().required().min(3, 'errors.range').max(20, 'errors.range'),
+    password: yup.string().required().min(6, 'errors.min'),
+    confirmPassword: yup.string().oneOf([yup.ref('password')]),
+  }), []);
   return (
     <Formik
       initialValues={{ userName: '', password: '', confirmPassword: '' }}
@@ -60,7 +61,7 @@ const SignUpForm = () => {
               id="userName"
             />
             <label htmlFor="userName">Имя пользователя </label>
-            {errors.userName && touched.userName && <div className="invalid-tooltip d-block">{errors.userName}</div>}
+            {errors.userName && touched.userName && <div className="invalid-tooltip d-block">{t(errors.userName)}</div>}
           </div>
           <div className="form-floating mb-4 form-group">
             <Field
@@ -72,7 +73,7 @@ const SignUpForm = () => {
               id="password"
             />
             <label htmlFor="password">Пароль</label>
-            {errors.password && touched.password && <div className="invalid-tooltip d-block">{errors.password}</div>}
+            {errors.password && touched.password && <div className="invalid-tooltip d-block">{t(errors.password)}</div>}
           </div>
           <div className="form-floating mb-4 form-group">
             <Field
@@ -84,10 +85,10 @@ const SignUpForm = () => {
               id="confirmPassword"
             />
             <label htmlFor="confirmPassword">Подтвердите пароль</label>
-            {errors.confirmPassword && touched.confirmPassword && <div className="invalid-tooltip d-block">{errors.confirmPassword}</div>}
+            {errors.confirmPassword && touched.confirmPassword && <div className="invalid-tooltip d-block">{t(errors.confirmPassword)}</div>}
           </div>
-          <Button type="submit" variant="outline-primary" disabled={isSubmitting} className="w-100 ">Зарегистрироваться</Button>
-          {errors.network && <div className="invalid-feedback d-block text-center">{errors.network}</div>}
+          <Button type="submit" variant="outline-primary" disabled={isSubmitting} className="w-100 ">{t('buttons.signUp')}</Button>
+          {errors.network && <div className="invalid-feedback d-block text-center">{t(errors.network)}</div>}
         </Form>
       )}
     </Formik>

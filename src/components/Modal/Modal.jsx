@@ -6,18 +6,19 @@ import { closeModal } from 'actions';
 import AddChannel from 'components/AddChannel';
 import RenameChannel from 'components/RenameChannel';
 import DeleteChannel from 'components/DeleteChannel';
+import { useTranslation } from 'react-i18next';
 
 const modalTypeMapping = {
   addChannel: {
-    headerText: 'Добавить канал',
+    headerText: 'chat.addChannel',
     component: AddChannel,
   },
   renameChannel: {
-    headerText: 'Переименовать канал',
+    headerText: 'chat.renameChannel',
     component: RenameChannel,
   },
   deleteChannel: {
-    headerText: 'Удалить канал',
+    headerText: 'chat.deleteChannel',
     component: DeleteChannel,
   },
 };
@@ -25,6 +26,7 @@ const modalTypeMapping = {
 const Modal = () => {
   const { isOpened, type } = useSelector(getModalStatus);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const handleClose = useCallback(
     () => dispatch(closeModal()),
     [],
@@ -33,7 +35,7 @@ const Modal = () => {
   return (
     <BootstrapModal centered show={isOpened} onHide={handleClose}>
       <BootstrapModal.Header closeButton>
-        <BootstrapModal.Title>{modalData?.headerText}</BootstrapModal.Title>
+        <BootstrapModal.Title>{t(modalData?.headerText)}</BootstrapModal.Title>
       </BootstrapModal.Header>
       <BootstrapModal.Body>
         {modalData?.component && <modalData.component close={handleClose} />}

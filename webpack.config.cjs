@@ -15,6 +15,8 @@ module.exports = {
       routes: path.resolve(__dirname, 'src/routes.js'),
       storage: path.resolve(__dirname, 'src/storage.js'),
       context: path.resolve(__dirname, 'src/context.js'),
+      locales: path.resolve(__dirname, 'src/locales'),
+      shemes: path.resolve(__dirname, 'src/shemes.js'),
     },
   },
   output: {

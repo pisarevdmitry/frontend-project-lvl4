@@ -1,8 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import storage from 'storage';
+import * as yup from 'yup';
 import { UserContext, SocketContext } from 'context';
+import { yup as yupLocale } from 'locales';
 import PrivateRoute from 'components/PrivateRoute';
 import GuestOnlyRoute from 'components/GuestOnlyRoute';
 import Header from 'components/Header';
@@ -11,7 +13,10 @@ import LoginPage from 'components/LoginPage';
 import SignUpPage from 'components/SignUpPage';
 import NotFoundPage from 'components/NotFoundPage';
 import Modal from 'components/Modal';
+import initTranslation from './init18n';
 
+yup.setLocale(yupLocale);
+initTranslation();
 const getUserData = () => {
   const storageData = localStorage.getItem(storage.getTokenKey());
   return JSON.parse(storageData);
@@ -20,6 +25,8 @@ const getUserData = () => {
 const socket = io(window.location.host, { autoConnect: false });
 
 const App = () => {
+  useEffect(() => {
+  }, []);
   const [user, updateUser] = useState(getUserData());
   const logout = useCallback(
     () => {
@@ -28,6 +35,7 @@ const App = () => {
     },
     [user],
   );
+
   return (
     <UserContext.Provider value={{ user, updateUser }}>
       <SocketContext.Provider value={{ socket }}>
