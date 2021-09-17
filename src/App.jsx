@@ -6,15 +6,15 @@ import * as yup from 'yup';
 import storage from './storage.js';
 import { yup as yupLocale } from './locales';
 import { UserContext, SocketContext } from './context.js';
-import PrivateRoute from 'components/PrivateRoute';
-import GuestOnlyRoute from 'components/GuestOnlyRoute';
-import Header from 'components/Header';
-import Chat from 'components/Chat';
-import LoginPage from 'components/LoginPage';
-import SignUpPage from 'components/SignUpPage';
-import NotFoundPage from 'components/NotFoundPage';
-import Modal from 'components/Modal';
-import initTranslation from './init18n';
+import PrivateRoute from './components/PrivateRoute';
+import GuestOnlyRoute from './components/GuestOnlyRoute';
+import Header from './components/Header';
+import Chat from './components/Chat';
+import LoginPage from './components/LoginPage';
+import SignUpPage from './components/SignUpPage';
+import NotFoundPage from './components/NotFoundPage';
+import Modal from './components/Modal';
+import initTranslation from './init18n.js';
 import store from './reducers';
 
 const init = (socketClient = io) => {
