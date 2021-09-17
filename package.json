@@ -13,6 +13,11 @@
     "build": "NODE_ENV=production npx webpack --mode production",
     "start": "node bin/slack.js"
   },
+  "jest": {
+    "moduleNameMapper" :{
+      "context":  "<rootDir>/src/context.js"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:pisarevdmitry/frontend-project-lvl4.git"
