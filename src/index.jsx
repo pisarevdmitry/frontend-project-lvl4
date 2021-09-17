@@ -3,13 +3,11 @@ import 'regenerator-runtime/runtime.js';
 import '../assets/application.scss';
 import React from 'react';
 import { render } from 'react-dom';
-import { Provider } from 'react-redux';
-import store from './reducers';
-import App from './App.jsx';
+import init from './App.jsx';
+
+const App = init();
 
 render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <App />,
   document.getElementById('chat'),
 );

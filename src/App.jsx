@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { io } from 'socket.io-client';
+import { Provider } from 'react-redux';
 import storage from 'storage';
 import * as yup from 'yup';
 import { UserContext, SocketContext } from 'context';
@@ -14,62 +15,68 @@ import SignUpPage from 'components/SignUpPage';
 import NotFoundPage from 'components/NotFoundPage';
 import Modal from 'components/Modal';
 import initTranslation from './init18n';
+import store from './reducers';
 
-yup.setLocale(yupLocale);
-initTranslation();
-const getUserData = () => {
-  const storageData = localStorage.getItem(storage.getTokenKey());
-  return JSON.parse(storageData);
+const init = (socketClient = io) => {
+  yup.setLocale(yupLocale);
+  initTranslation();
+  const getUserData = () => {
+    const storageData = localStorage.getItem(storage.getTokenKey());
+    return JSON.parse(storageData);
+  };
+
+  const socket = socketClient(window.location.host, { autoConnect: false });
+
+  const App = () => {
+    useEffect(() => {
+    }, []);
+    const [user, updateUser] = useState(getUserData());
+    const logout = useCallback(
+      () => {
+        localStorage.removeItem(storage.getTokenKey());
+        updateUser(null);
+      },
+      [user],
+    );
+    return (
+      <Provider store={store}>
+        <UserContext.Provider value={{ user, updateUser }}>
+          <SocketContext.Provider value={{ socket }}>
+            <div className="d-flex flex-column h-100">
+              <Router>
+                <Switch>
+                  <Route exact path="/">
+                    <PrivateRoute redirectPath="/login">
+                      <Header user={user} logout={logout} />
+                      <Chat />
+                    </PrivateRoute>
+                  </Route>
+                  <Route exact path="/login">
+                    <GuestOnlyRoute redirectPath="/">
+                      <Header user={user} logout={logout} />
+                      <LoginPage />
+                    </GuestOnlyRoute>
+                  </Route>
+                  <Route exact path="/signup">
+                    <GuestOnlyRoute redirectPath="/">
+                      <Header user={user} logout={logout} />
+                      <SignUpPage />
+                    </GuestOnlyRoute>
+                  </Route>
+                  <Route path="*">
+                    <NotFoundPage />
+                  </Route>
+                </Switch>
+              </Router>
+            </div>
+            <Modal />
+          </SocketContext.Provider>
+        </UserContext.Provider>
+      </Provider>
+
+    );
+  };
+  return App;
 };
 
-const socket = io(window.location.host, { autoConnect: false });
-
-const App = () => {
-  useEffect(() => {
-  }, []);
-  const [user, updateUser] = useState(getUserData());
-  const logout = useCallback(
-    () => {
-      localStorage.removeItem(storage.getTokenKey());
-      updateUser(null);
-    },
-    [user],
-  );
-
-  return (
-    <UserContext.Provider value={{ user, updateUser }}>
-      <SocketContext.Provider value={{ socket }}>
-        <div className="d-flex flex-column h-100">
-          <Router>
-            <Switch>
-              <Route exact path="/">
-                <PrivateRoute redirectPath="/login">
-                  <Header user={user} logout={logout} />
-                  <Chat />
-                </PrivateRoute>
-              </Route>
-              <Route exact path="/login">
-                <GuestOnlyRoute redirectPath="/">
-                  <Header user={user} logout={logout} />
-                  <LoginPage />
-                </GuestOnlyRoute>
-              </Route>
-              <Route exact path="/signup">
-                <GuestOnlyRoute redirectPath="/">
-                  <Header user={user} logout={logout} />
-                  <SignUpPage />
-                </GuestOnlyRoute>
-              </Route>
-              <Route path="*">
-                <NotFoundPage />
-              </Route>
-            </Switch>
-          </Router>
-        </div>
-        <Modal />
-      </SocketContext.Provider>
-    </UserContext.Provider>
-  );
-};
-
-export default App;
+export default init;
