@@ -15,7 +15,8 @@
   },
   "jest": {
     "moduleNameMapper" :{
-      "context":  "<rootDir>/src/context.js"
+      "context":  "<rootDir>/src/context.js",
+      "storage":  "<rootDir>/src/storage.js"
     }
   },
   "repository": {
