@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 import { Provider } from 'react-redux';
 import * as yup from 'yup';
 import storage from './storage.js';
-import { yup as yupLocale } from 'locales';
+import { yup as yupLocale } from './locales';
 import { UserContext, SocketContext } from './context.js';
 import PrivateRoute from 'components/PrivateRoute';
 import GuestOnlyRoute from 'components/GuestOnlyRoute';
