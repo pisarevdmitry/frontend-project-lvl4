@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loadData } from '../actions';
+import { loadData } from '../actions/index.js';
 
 const loadingSlice = createSlice({
   name: 'loadingInfo',

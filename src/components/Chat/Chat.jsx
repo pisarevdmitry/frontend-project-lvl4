@@ -56,7 +56,6 @@ const Chat = () => {
   );
   const emitMessage = useCallback(
     ({ message }, actions) => {
-      console.log(message);
       socket.emit('newMessage', { channelId: currentChannelId, userName: user.userName, body: message }, () => actions.resetForm());
     },
     [currentChannelId, user],

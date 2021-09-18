@@ -17,14 +17,14 @@ import Modal from './components/Modal';
 import initTranslation from './init18n.js';
 import store from './reducers';
 
-const init = (socketClient = io) => {
+const init = (socketClient = io(window.location.host, { autoConnect: false })) => {
   yup.setLocale(yupLocale);
   initTranslation();
   const getUserData = () => {
     const storageData = localStorage.getItem(storage.getTokenKey());
     return JSON.parse(storageData);
   };
-  const socket = socketClient(window.location.host, { autoConnect: false });
+  const socket = socketClient;
 
   const App = () => {
     useEffect(() => {
