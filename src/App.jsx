@@ -1,3 +1,5 @@
+import 'core-js/stable/index.js';
+import 'regenerator-runtime/runtime.js';
 import React, { useState, useCallback, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { io } from 'socket.io-client';
