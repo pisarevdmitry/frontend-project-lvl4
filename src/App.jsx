@@ -24,7 +24,7 @@ const init = (socketClient = io) => {
     const storageData = localStorage.getItem(storage.getTokenKey());
     return JSON.parse(storageData);
   };
-
+  console.log(socketClient);
   const socket = socketClient(window.location.host, { autoConnect: false });
 
   const App = () => {
