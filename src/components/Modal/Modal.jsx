@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react';
 import { Modal as BootstrapModal } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { getModalStatus } from 'selectors';
-import { closeModal } from 'actions';
-import AddChannel from 'components/AddChannel';
-import RenameChannel from 'components/RenameChannel';
-import DeleteChannel from 'components/DeleteChannel';
 import { useTranslation } from 'react-i18next';
+import { getModalStatus } from '../../selectors';
+import { closeModal } from '../../actions';
+import AddChannel from '../AddChannel';
+import RenameChannel from '../RenameChannel';
+import DeleteChannel from '../DeleteChannel';
 
 const modalTypeMapping = {
   addChannel: {

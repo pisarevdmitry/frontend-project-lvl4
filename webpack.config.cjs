@@ -8,15 +8,6 @@ module.exports = {
   mode,
   resolve: {
     extensions: ['.js', '.jsx'],
-    alias: {
-      components: path.resolve(__dirname, 'src/components'),
-      actions: path.resolve(__dirname, 'src/actions'),
-      selectors: path.resolve(__dirname, 'src/selectors'),
-      routes: path.resolve(__dirname, 'src/routes.js'),
-      storage: path.resolve(__dirname, 'src/storage.js'),
-      context: path.resolve(__dirname, 'src/context.js'),
-      locales: path.resolve(__dirname, 'src/locales'),
-    },
   },
   output: {
     path: path.join(__dirname, 'dist', 'public'),

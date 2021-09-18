@@ -1,13 +1,14 @@
 import React, { useEffect, useContext, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { Button } from 'react-bootstrap';
 import {
   getChannelsInfo,
   getLoadingStatus,
   getCurrentChannelMessages,
   getCurrentChannelName,
-} from 'selectors';
-import { UserContext, SocketContext } from 'context';
+} from '../../selectors';
+import { UserContext, SocketContext } from '../../context.js';
 import {
   loadData,
   addMessage as addMessageAction,
@@ -16,11 +17,10 @@ import {
   addChannel as addChannelAction,
   renameChannel as renameChannelAction,
   deleteChannel as deleteChannelAction,
-} from 'actions';
-import { Button } from 'react-bootstrap';
-import ChannelsList from 'components/ChannelsList';
-import MessagesBox from 'components/MessagesBox';
-import AddMessage from 'components/AddMessage';
+} from '../../actions';
+import ChannelsList from '../ChannelsList';
+import MessagesBox from '../MessagesBox';
+import AddMessage from '../AddMessage';
 
 const Chat = () => {
   const { user } = useContext(UserContext);

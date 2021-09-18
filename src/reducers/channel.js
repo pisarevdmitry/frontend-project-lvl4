@@ -5,7 +5,7 @@ import {
   addChannel,
   renameChannel,
   deleteChannel,
-} from 'actions';
+} from '../actions';
 
 const channelSlice = createSlice({
   name: 'channelsInfo',

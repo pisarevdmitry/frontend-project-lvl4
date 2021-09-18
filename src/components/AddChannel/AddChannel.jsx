@@ -7,8 +7,8 @@ import { Button } from 'react-bootstrap';
 import cn from 'classnames';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
-import { getChannelsNames } from 'selectors';
-import { SocketContext } from 'context';
+import { getChannelsNames } from '../../selectors';
+import { SocketContext } from '../../context.js';
 
 const AddChannel = ({ close }) => {
   const channelsNames = useSelector(getChannelsNames);

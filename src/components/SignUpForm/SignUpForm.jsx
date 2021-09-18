@@ -7,9 +7,9 @@ import * as yup from 'yup';
 import { Button } from 'react-bootstrap';
 import cn from 'classnames';
 import axios from 'axios';
-import { UserContext } from 'context';
-import apiRoutes from 'routes';
-import storage from 'storage';
+import { UserContext } from '../../context.js';
+import apiRoutes from '../../routes.js';
+import storage from '../../storage.js';
 
 const SignUpForm = () => {
   const { updateUser } = useContext(UserContext);

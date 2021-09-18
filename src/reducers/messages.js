@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loadData, addMessage, deleteChannel } from 'actions';
+import { loadData, addMessage, deleteChannel } from '../actions';
 
 const messagesSlice = createSlice({
   name: 'messagesInfo',
