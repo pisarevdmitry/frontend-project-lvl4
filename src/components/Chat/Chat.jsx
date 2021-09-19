@@ -35,6 +35,7 @@ const Chat = () => {
     dispatch(loadData(user.token));
   }, []);
   useEffect(() => {
+    console.log(socket.connect);
     socket.connect();
     socket.on('newMessage', (message) => dispatch(addMessageAction({ message })));
     socket.on('newChannel', (channel) => dispatch(addChannelAction({ channel })));
