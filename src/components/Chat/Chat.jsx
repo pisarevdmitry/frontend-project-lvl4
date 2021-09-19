@@ -35,15 +35,10 @@ const Chat = () => {
     dispatch(loadData(user.token));
   }, []);
   useEffect(() => {
-    console.log(socket.connect);
-    socket.connect();
     socket.on('newMessage', (message) => dispatch(addMessageAction({ message })));
     socket.on('newChannel', (channel) => dispatch(addChannelAction({ channel })));
     socket.on('renameChannel', (channel) => dispatch(renameChannelAction({ channel })));
     socket.on('removeChannel', ({ id }) => dispatch(deleteChannelAction({ id })));
-    return () => {
-      socket.disconnect();
-    };
   }, []);
   const addChannel = useCallback(
     () => dispatch(openModal({ type: 'addChannel' })), [],

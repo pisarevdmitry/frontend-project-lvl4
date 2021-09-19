@@ -19,7 +19,7 @@ import Modal from './components/Modal';
 import initTranslation from './init18n.js';
 import store from './reducers';
 
-const init = (socketClient = io(window.location.host, { autoConnect: false })) => {
+const init = (socketClient = io()) => {
   yup.setLocale(yupLocale);
   initTranslation();
   const getUserData = () => {
