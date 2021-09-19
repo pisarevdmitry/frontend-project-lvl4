@@ -77,7 +77,7 @@ const init = (socketClient = io(window.location.host, { autoConnect: false })) =
 
     );
   };
-  return App;
+  return <App />;
 };
 
 export default init;

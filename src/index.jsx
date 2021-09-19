@@ -1,11 +1,10 @@
 import '../assets/application.scss';
-import React from 'react';
 import { render } from 'react-dom';
 import init from './App.jsx';
 
-const App = init();
+const vdom = init();
 
 render(
-  <App />,
+  vdom,
   document.getElementById('chat'),
 );
