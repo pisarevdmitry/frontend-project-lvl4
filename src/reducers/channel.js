@@ -17,9 +17,9 @@ const channelSlice = createSlice({
       state.loaded = true;
       state.currentChannelId = payload.currentChannelId;
     });
-    buider.addCase(changeChannel, (state, { payload }) => {
-      state.currentChannelId = payload.id;
-    });
+    buider.addCase(changeChannel, (state, { payload }) => (
+      { ...state, currentChannelId: payload.id }
+    ));
     buider.addCase(addChannel, (state, { payload }) => {
       state.channels.push(payload.channel);
       state.currentChannelId = payload.channel.id;
