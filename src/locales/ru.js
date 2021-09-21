@@ -40,6 +40,8 @@ export default {
       name: 'Ваш ник',
       password: 'Пароль',
       signIn: 'Регистрация',
+      signUpName: 'Имя пользователя',
+      confirmPassword: 'Подтвердите пароль',
     },
     noAccount: 'Нет аккаунта?',
     sure: 'Уверены?',

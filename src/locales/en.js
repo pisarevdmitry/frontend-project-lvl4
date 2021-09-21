@@ -33,6 +33,8 @@ export default {
       name: 'Yours nick',
       password: 'password',
       signIn: 'SignIn',
+      signUpName: 'Yours name',
+      confirmPassword: 'confirmPassword',
     },
     noAccount: 'noAccount?',
     sure: 'Sure?',

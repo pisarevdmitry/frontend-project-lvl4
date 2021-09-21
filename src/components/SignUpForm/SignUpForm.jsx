@@ -60,8 +60,9 @@ const SignUpForm = () => {
               placeholder="От 3 до 20 символов"
               id="userName"
             />
-            <label htmlFor="userName">Имя пользователя </label>
-            {errors.userName && touched.userName && <div className="invalid-tooltip d-block">{t(errors.userName)}</div>}
+            <label htmlFor="userName">
+              {t('forms.signUpName')}
+            </label>
           </div>
           <div className="form-floating mb-4 form-group">
             <Field
@@ -72,7 +73,7 @@ const SignUpForm = () => {
               placeholder="Не менее 6 символов"
               id="password"
             />
-            <label htmlFor="password">Пароль</label>
+            <label htmlFor="password">{t('forms.password')}</label>
             {errors.password && touched.password && <div className="invalid-tooltip d-block">{t(errors.password)}</div>}
           </div>
           <div className="form-floating mb-4 form-group">
@@ -84,7 +85,7 @@ const SignUpForm = () => {
               placeholder="Пароли должны совпадать"
               id="confirmPassword"
             />
-            <label htmlFor="confirmPassword">Подтвердите пароль</label>
+            <label htmlFor="confirmPassword">{t('forms.confirmPassword')}</label>
             {errors.confirmPassword && touched.confirmPassword && <div className="invalid-tooltip d-block">{t(errors.confirmPassword)}</div>}
           </div>
           <Button type="submit" variant="outline-primary" disabled={isSubmitting} className="w-100 ">{t('buttons.signUp')}</Button>
