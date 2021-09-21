@@ -63,6 +63,7 @@ const SignUpForm = () => {
             <label htmlFor="userName">
               {t('forms.signUpName')}
             </label>
+            {errors.userName && touched.userName && <div className="invalid-tooltip d-block">{t(errors.userName)}</div>}
           </div>
           <div className="form-floating mb-4 form-group">
             <Field
