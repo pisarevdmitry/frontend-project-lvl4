@@ -6,9 +6,9 @@ const loadingSlice = createSlice({
   initialState: { loaded: false },
   reducers: {},
   extraReducers: (buider) => {
-    buider.addCase(loadData.fulfilled, (state) => {
-      state.loaded = true;
-    });
+    buider.addCase(loadData.fulfilled, (state) => (
+      { ...state, loaded: true }
+    ));
   },
 });
 

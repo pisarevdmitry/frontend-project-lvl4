@@ -6,14 +6,15 @@ const messagesSlice = createSlice({
   initialState: { messages: [] },
   reducers: {},
   extraReducers: (buider) => {
-    buider.addCase(loadData.fulfilled, (state, { payload }) => {
-      state.messages = payload.messages;
-    });
-    buider.addCase(addMessage, (state, { payload }) => {
-      state.messages.push(payload.message);
-    });
+    buider.addCase(loadData.fulfilled, (state, { payload }) => (
+      { ...state, messages: payload.messages }
+    ));
+    buider.addCase(addMessage, (state, { payload }) => (
+      { ...state, messages: [...state.messages, payload.message] }
+    ));
     buider.addCase(deleteChannel, (state, { payload }) => {
-      state.messages = state.messages.filter(({ channelId }) => channelId !== payload.id);
+      const filtered = state.messages.filter(({ channelId }) => channelId !== payload.id);
+      return { ...state, messages: filtered };
     });
   },
 });

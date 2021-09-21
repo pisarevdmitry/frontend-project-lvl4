@@ -8,16 +8,12 @@ const initialState = {
 };
 
 const modalReducer = createReducer(initialState, (builder) => {
-  builder.addCase(openModal, (state, { payload }) => {
-    state.isOpened = true;
-    state.type = payload.type;
-    state.extraData = payload.extra || null;
-  });
-  builder.addCase(closeModal, (state) => {
-    state.isOpened = false;
-    state.type = null;
-    state.extraData = null;
-  });
+  builder.addCase(openModal, (_state, { payload }) => (
+    { isOpened: true, type: payload.type, extraData: payload.extra || null }
+  ));
+  builder.addCase(closeModal, () => (
+    { isOpened: false, type: null, extraData: null }
+  ));
 });
 
 export default modalReducer;
