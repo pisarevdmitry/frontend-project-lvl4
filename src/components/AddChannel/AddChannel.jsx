@@ -19,7 +19,7 @@ const AddChannel = ({ close }) => {
     ({ name }) => {
       socket.emit('newChannel', { name }, (() => close()));
     },
-    [],
+    [close, socket],
   );
   useEffect(() => {
     inputEl.current.focus();

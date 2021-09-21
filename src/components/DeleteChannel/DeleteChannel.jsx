@@ -15,7 +15,7 @@ const DeleteChannel = ({ close }) => {
       setDisabled(true);
       socket.emit('removeChannel', { id: channelId }, () => close());
     },
-    [channelId],
+    [channelId, socket, close],
   );
   return (
     <>

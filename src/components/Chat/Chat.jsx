@@ -33,35 +33,35 @@ const Chat = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadData(user.token));
-  }, []);
+  }, [dispatch, user.token]);
   useEffect(() => {
     socket.on('newMessage', (message) => dispatch(addMessageAction({ message })));
     socket.on('newChannel', (channel) => dispatch(addChannelAction({ channel })));
     socket.on('renameChannel', (channel) => dispatch(renameChannelAction({ channel })));
     socket.on('removeChannel', ({ id }) => dispatch(deleteChannelAction({ id })));
-  }, []);
+  }, [dispatch, socket]);
   const addChannel = useCallback(
-    () => dispatch(openModal({ type: 'addChannel' })), [],
+    () => dispatch(openModal({ type: 'addChannel' })), [dispatch],
   );
   const renameChannel = useCallback(
-    (id) => dispatch(openModal({ type: 'renameChannel', extra: { channelId: id } })), [],
+    (id) => dispatch(openModal({ type: 'renameChannel', extra: { channelId: id } })), [dispatch],
   );
   const deleteChannel = useCallback(
-    (id) => dispatch(openModal({ type: 'deleteChannel', extra: { channelId: id } })), [],
+    (id) => dispatch(openModal({ type: 'deleteChannel', extra: { channelId: id } })), [dispatch],
     [],
   );
   const emitMessage = useCallback(
     ({ message }, actions) => {
       socket.emit('newMessage', { channelId: currentChannelId, userName: user.userName, body: message }, () => actions.resetForm());
     },
-    [currentChannelId, user],
+    [currentChannelId, user, socket],
   );
   const changeChannel = useCallback(
     (id) => {
       if (id === currentChannelId) return;
       dispatch(changeChannelAction({ id }));
     },
-    [currentChannelId],
+    [currentChannelId, dispatch],
   );
   if (!loaded) return null;
   return (

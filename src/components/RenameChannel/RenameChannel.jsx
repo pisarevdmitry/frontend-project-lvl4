@@ -20,7 +20,7 @@ const RenameChannel = ({ close }) => {
     ({ name }) => {
       socket.emit('renameChannel', { name, id: renamingChannel.id }, (() => close()));
     },
-    [],
+    [socket, close, renamingChannel.id],
   );
   useEffect(() => {
     inputEl.current.focus();

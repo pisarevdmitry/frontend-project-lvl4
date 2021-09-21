@@ -35,7 +35,7 @@ const SignUpForm = () => {
           }
         });
     },
-    [],
+    [updateUser],
   );
   const schema = useMemo(() => yup.object().shape({
     userName: yup.string().required().min(3, 'errors.range').max(20, 'errors.range'),

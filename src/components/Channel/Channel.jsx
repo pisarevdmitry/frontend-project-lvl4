@@ -6,8 +6,8 @@ const Channel = ({
   name, id, changeChannel, current, removable, onRename, onDelete,
 }) => {
   const handleClick = useCallback(() => changeChannel(id), [id, changeChannel]);
-  const handleRename = useCallback(() => onRename(id), [id]);
-  const handleDelete = useCallback(() => onDelete(id), [id]);
+  const handleRename = useCallback(() => onRename(id), [id, onRename]);
+  const handleDelete = useCallback(() => onDelete(id), [id, onDelete]);
   const { t } = useTranslation();
   const isCurrent = id === current;
   if (removable) {

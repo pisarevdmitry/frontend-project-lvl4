@@ -33,7 +33,7 @@ const LoginForm = () => {
           setErrors({ error: 'errors.forbidden' });
         });
     },
-    [],
+    [updateUser],
   );
   const schema = useMemo(() => yup.object().shape({
     userName: yup.string().required('errors.forbidden'),

@@ -37,7 +37,7 @@ const init = (socketClient = io()) => {
         localStorage.removeItem(storage.getTokenKey());
         updateUser(null);
       },
-      [user],
+      [],
     );
     return (
       <Provider store={store}>

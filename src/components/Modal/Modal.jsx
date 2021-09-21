@@ -29,7 +29,7 @@ const Modal = () => {
   const { t } = useTranslation();
   const handleClose = useCallback(
     () => dispatch(closeModal()),
-    [],
+    [dispatch],
   );
   const modalData = modalTypeMapping[type];
   return (
