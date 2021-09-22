@@ -1,5 +1,5 @@
 import React, {
-  useCallback, useContext, useRef, useEffect, useMemo,
+  useCallback, useContext, useRef, useEffect,
 } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +10,12 @@ import axios from 'axios';
 import { UserContext } from '../../context.js';
 import apiRoutes from '../../routes.js';
 import storage from '../../storage.js';
+
+const schema = yup.object().shape({
+  userName: yup.string().required('errors.required').min(3, 'errors.range').max(20, 'errors.range'),
+  password: yup.string().required('errors.required').min(6, 'errors.min'),
+  confirmPassword: yup.string().oneOf([yup.ref('password')], 'errors.confirmPassword'),
+});
 
 const SignUpForm = () => {
   const { updateUser } = useContext(UserContext);
@@ -37,11 +43,6 @@ const SignUpForm = () => {
     },
     [updateUser],
   );
-  const schema = useMemo(() => yup.object().shape({
-    userName: yup.string().required().min(3, 'errors.range').max(20, 'errors.range'),
-    password: yup.string().required().min(6, 'errors.min'),
-    confirmPassword: yup.string().oneOf([yup.ref('password')]),
-  }), []);
   return (
     <Formik
       initialValues={{ userName: '', password: '', confirmPassword: '' }}

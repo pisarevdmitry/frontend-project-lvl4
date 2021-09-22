@@ -1,5 +1,5 @@
 import React, {
-  useCallback, useContext, useRef, useEffect, useMemo,
+  useCallback, useContext, useRef, useEffect,
 } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +11,11 @@ import axios from 'axios';
 import { UserContext } from '../../context.js';
 import apiRoutes from '../../routes.js';
 import storage from '../../storage.js';
+
+const schema = yup.object().shape({
+  userName: yup.string().required(),
+  password: yup.string().required(),
+});
 
 const LoginForm = () => {
   const { updateUser } = useContext(UserContext);
@@ -35,10 +40,6 @@ const LoginForm = () => {
     },
     [updateUser],
   );
-  const schema = useMemo(() => yup.object().shape({
-    userName: yup.string().required('errors.forbidden'),
-    password: yup.string().required('errors.forbidden'),
-  }), []);
   return (
     <Formik
       initialValues={{ userName: '', password: '' }}

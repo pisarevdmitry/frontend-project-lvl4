@@ -28,8 +28,8 @@ const AddChannel = ({ close }) => {
     <Formik
       initialValues={{ name: '' }}
       validationSchema={yup.object().shape({
-        name: yup.string().required().min(3, 'errors.range').max(20, 'errors.range')
-          .notOneOf(channelsNames),
+        name: yup.string().required('errors.required').min(3, 'errors.range').max(20, 'errors.range')
+          .notOneOf(channelsNames, 'errors.uniq'),
       })}
       validateOnChange={false}
       validateOnBlur={false}

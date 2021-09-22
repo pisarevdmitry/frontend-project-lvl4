@@ -4,9 +4,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { Provider } from 'react-redux';
-import * as yup from 'yup';
 import storage from './storage.js';
-import { yup as yupLocale } from './locales';
 import { UserContext, SocketContext } from './context.js';
 import PrivateRoute from './components/PrivateRoute';
 import GuestOnlyRoute from './components/GuestOnlyRoute';
@@ -20,7 +18,6 @@ import initTranslation from './init18n.js';
 import store from './reducers';
 
 const init = (socketClient = io()) => {
-  yup.setLocale(yupLocale);
   initTranslation();
   const getUserData = () => {
     const storageData = localStorage.getItem(storage.getTokenKey());

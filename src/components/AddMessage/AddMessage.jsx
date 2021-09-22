@@ -6,6 +6,10 @@ import * as yup from 'yup';
 import { Button, InputGroup } from 'react-bootstrap';
 import { getModalStatus } from '../../selectors';
 
+const shema = yup.object().shape({
+  message: yup.string().required('errors.required'),
+});
+
 const AddMessage = ({ onSubmit }) => {
   const { t } = useTranslation();
   const { isOpened } = useSelector(getModalStatus);
@@ -14,9 +18,7 @@ const AddMessage = ({ onSubmit }) => {
       initialValues={{ message: '' }}
       validateOnChange={false}
       validateOnBlur={false}
-      validationSchema={yup.object().shape({
-        message: yup.string().required(),
-      })}
+      validationSchema={shema}
       onSubmit={onSubmit}
     >
       {({ dirty }) => (
