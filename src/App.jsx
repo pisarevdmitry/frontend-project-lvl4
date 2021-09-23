@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import storage from './storage.js';
 import { UserContext, SocketContext } from './context.js';
 import PrivateRoute from './components/PrivateRoute';
@@ -12,13 +12,16 @@ import SignUpPage from './components/SignUpPage';
 import NotFoundPage from './components/NotFoundPage';
 import Modal from './components/Modal';
 import { getModalStatus } from './selectors';
+import { closeModal as closeModalAction } from './actions';
 
 const getUserData = () => {
   const storageData = localStorage.getItem(storage.getTokenKey());
   return JSON.parse(storageData);
 };
+
 const App = ({ socket }) => {
-  const { isOpened } = useSelector(getModalStatus);
+  const { isOpened, type } = useSelector(getModalStatus);
+  const dispatch = useDispatch();
   useEffect(() => {
   }, []);
   const [user, updateUser] = useState(getUserData());
@@ -28,6 +31,10 @@ const App = ({ socket }) => {
       updateUser(null);
     },
     [],
+  );
+  const closeModal = useCallback(
+    () => dispatch(closeModalAction()),
+    [dispatch],
   );
   return (
     <UserContext.Provider value={{ user, updateUser }}>
@@ -59,7 +66,7 @@ const App = ({ socket }) => {
             </Switch>
           </Router>
         </div>
-        <Modal />
+        <Modal isOpened={isOpened} type={type} handleClose={closeModal} />
       </SocketContext.Provider>
     </UserContext.Provider>
 

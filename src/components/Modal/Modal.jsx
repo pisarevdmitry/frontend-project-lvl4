@@ -1,9 +1,6 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Modal as BootstrapModal } from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { getModalStatus } from '../../selectors';
-import { closeModal } from '../../actions';
 import AddChannel from '../AddChannel';
 import RenameChannel from '../RenameChannel';
 import DeleteChannel from '../DeleteChannel';
@@ -23,14 +20,8 @@ const modalTypeMapping = {
   },
 };
 
-const Modal = () => {
-  const { isOpened, type } = useSelector(getModalStatus);
-  const dispatch = useDispatch();
+const Modal = ({ isOpened, type, handleClose }) => {
   const { t } = useTranslation();
-  const handleClose = useCallback(
-    () => dispatch(closeModal()),
-    [dispatch],
-  );
   const modalData = modalTypeMapping[type];
   return (
     <BootstrapModal centered show={isOpened} onHide={handleClose}>
