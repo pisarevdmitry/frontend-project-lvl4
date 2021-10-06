@@ -1,7 +1,7 @@
 import React, {
-  useCallback, useContext, useRef, useEffect,
+  useContext, useRef, useEffect,
 } from 'react';
-import { Formik, Form, Field } from 'formik';
+import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import { Button } from 'react-bootstrap';
@@ -24,77 +24,79 @@ const SignUpForm = () => {
   useEffect(() => {
     inputEl.current.focus();
   }, []);
-  const submit = useCallback(
-    ({ userName: username, password }, { setSubmitting, setErrors }) => {
-      axios.post(apiRoutes.signUpPath(), { username, password })
-        .then(({ data }) => {
-          const user = { token: data.token, userName: data.username };
-          localStorage.setItem(storage.getTokenKey(),
-            JSON.stringify(user));
-          updateUser(user);
-        })
-        .catch((e) => {
-          console.log(e.response.data);
-          if (e.response.data.statusCode === 409) {
-            setSubmitting(false);
-            setErrors({ network: 'errors.exists' });
-          }
-        });
-    },
-    [updateUser],
-  );
+  const submit = ({ userName: username, password }, { setSubmitting, setErrors }) => {
+    axios.post(apiRoutes.signUpPath(), { username, password })
+      .then(({ data }) => {
+        const user = { token: data.token, userName: data.username };
+        localStorage.setItem(storage.getTokenKey(),
+          JSON.stringify(user));
+        updateUser(user);
+      })
+      .catch((e) => {
+        if (e.response.data.statusCode === 409) {
+          setSubmitting(false);
+          setErrors({ network: 'errors.exists' });
+        }
+      });
+  };
+  const formik = useFormik({
+    initialValues: { userName: '', password: '', confirmPassword: '' },
+    validationSchema: schema,
+    onSubmit: submit,
+  });
   return (
-    <Formik
-      initialValues={{ userName: '', password: '', confirmPassword: '' }}
-      validationSchema={schema}
-      onSubmit={submit}
-    >
-      {({ errors, isSubmitting, touched }) => (
-        <Form className="col-12 col-md-6 mt-3 mt-mb-0">
-          <h1 className="text-center mb-4">Регистрация</h1>
-          <div className="form-floating mb-3 form-group">
-            <Field
-              innerRef={inputEl}
-              name="userName"
-              className={cn('form-control', { 'is-invalid': errors.userName && touched.userName })}
-              required
-              placeholder="От 3 до 20 символов"
-              id="userName"
-            />
-            <label htmlFor="userName">
-              {t('forms.signUpName')}
-            </label>
-            {errors.userName && touched.userName && <div className="invalid-tooltip d-block">{t(errors.userName)}</div>}
-          </div>
-          <div className="form-floating mb-4 form-group">
-            <Field
-              type="password"
-              name="password"
-              className={cn('form-control', { 'is-invalid': errors.password && touched.password })}
-              required
-              placeholder="Не менее 6 символов"
-              id="password"
-            />
-            <label htmlFor="password">{t('forms.password')}</label>
-            {errors.password && touched.password && <div className="invalid-tooltip d-block">{t(errors.password)}</div>}
-          </div>
-          <div className="form-floating mb-4 form-group">
-            <Field
-              type="password"
-              name="confirmPassword"
-              className={cn('form-control', { 'is-invalid': errors.confirmPassword && touched.confirmPassword })}
-              required
-              placeholder="Пароли должны совпадать"
-              id="confirmPassword"
-            />
-            <label htmlFor="confirmPassword">{t('forms.confirmPassword')}</label>
-            {errors.confirmPassword && touched.confirmPassword && <div className="invalid-tooltip d-block">{t(errors.confirmPassword)}</div>}
-          </div>
-          <Button type="submit" variant="outline-primary" disabled={isSubmitting} className="w-100 ">{t('buttons.signUp')}</Button>
-          {errors.network && <div className="invalid-feedback d-block text-center">{t(errors.network)}</div>}
-        </Form>
-      )}
-    </Formik>
+    <form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
+      <h1 className="text-center mb-4">Регистрация</h1>
+      <div className="form-floating mb-3 form-group">
+        <input
+          ref={inputEl}
+          name="userName"
+          className={cn('form-control', { 'is-invalid': formik.errors.userName && formik.touched.userName })}
+          required
+          placeholder="От 3 до 20 символов"
+          id="userName"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.userName}
+        />
+        <label htmlFor="userName">
+          {t('forms.signUpName')}
+        </label>
+        {formik.errors.userName && formik.touched.userName && <div className="invalid-tooltip d-block">{t(formik.errors.userName)}</div>}
+      </div>
+      <div className="form-floating mb-4 form-group">
+        <input
+          type="password"
+          name="password"
+          className={cn('form-control', { 'is-invalid': formik.errors.password && formik.touched.password })}
+          required
+          placeholder="Не менее 6 символов"
+          id="password"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.password}
+        />
+        <label htmlFor="password">{t('forms.password')}</label>
+        {formik.errors.password && formik.touched.password && <div className="invalid-tooltip d-block">{t(formik.errors.password)}</div>}
+      </div>
+      <div className="form-floating mb-4 form-group">
+        <input
+          type="password"
+          name="confirmPassword"
+          className={cn('form-control', { 'is-invalid': formik.errors.confirmPassword && formik.touched.confirmPassword })}
+          required
+          placeholder="Пароли должны совпадать"
+          id="confirmPassword"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.confirmPassword}
+        />
+        <label htmlFor="confirmPassword">{t('forms.confirmPassword')}</label>
+        {formik.errors.confirmPassword && formik.touched.confirmPassword && <div className="invalid-tooltip d-block">{t(formik.errors.confirmPassword)}</div>}
+      </div>
+      <Button type="submit" variant="outline-primary" disabled={formik.isSubmitting} className="w-100 ">{t('buttons.signUp')}</Button>
+      {formik.errors.network && <div className="invalid-feedback d-block text-center">{t(formik.errors.network)}</div>}
+    </form>
 
   );
 };
