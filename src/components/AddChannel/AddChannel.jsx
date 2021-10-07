@@ -14,9 +14,9 @@ const AddChannel = ({ close }) => {
   const channelsNames = useSelector(getChannelsNames);
   const inputEl = useRef(null);
   const { t } = useTranslation();
-  const { emit } = useContext(SocketContext);
-  const addChannel = ({ name }) => {
-    emit('newChannel', { name }, (() => close()));
+  const { addChannel } = useContext(SocketContext);
+  const handleSubmit = ({ name }) => {
+    addChannel({ name }, (() => close()));
   };
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const AddChannel = ({ close }) => {
   const formik = useFormik({
     initialValues: { name: '' },
     validationSchema: schema,
-    onSubmit: addChannel,
+    onSubmit: handleSubmit,
     validateOnChange: false,
     validateOnBlur: false,
   });

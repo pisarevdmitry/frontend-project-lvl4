@@ -7,22 +7,22 @@ import { SocketContext } from '../../context.js';
 
 const DeleteChannel = ({ close }) => {
   const { channelId } = useSelector(getExtraData);
-  const { emit } = useContext(SocketContext);
+  const { deleteChannel } = useContext(SocketContext);
   const { t } = useTranslation();
   const [disabled, setDisabled] = useState(false);
-  const deleteChannel = useCallback(
+  const handleClick = useCallback(
     () => {
       setDisabled(true);
-      emit('removeChannel', { id: channelId }, () => close());
+      deleteChannel({ id: channelId }, () => close());
     },
-    [channelId, emit, close],
+    [channelId, deleteChannel, close],
   );
   return (
     <>
       <p className="lead">{t('sure')}</p>
       <div className="d-flex justify-content-end">
         <Button disabled={disabled} variant="secondary" onClick={close} className="me-2">{t('buttons.cancel')}</Button>
-        <Button disabled={disabled} onClick={deleteChannel}>{t('buttons.delete')}</Button>
+        <Button disabled={disabled} onClick={handleClick}>{t('buttons.delete')}</Button>
       </div>
     </>
   );

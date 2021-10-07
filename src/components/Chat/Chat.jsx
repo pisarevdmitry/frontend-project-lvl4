@@ -11,12 +11,8 @@ import {
 import { UserContext, SocketContext } from '../../context.js';
 import {
   loadData,
-  addMessage as addMessageAction,
   changeChannel as changeChannelAction,
   openModal,
-  addChannel as addChannelAction,
-  renameChannel as renameChannelAction,
-  deleteChannel as deleteChannelAction,
 } from '../../actions';
 import ChannelsList from '../ChannelsList';
 import MessagesBox from '../MessagesBox';
@@ -24,7 +20,7 @@ import AddMessage from '../AddMessage';
 
 const Chat = () => {
   const { user } = useContext(UserContext);
-  const { subscribe, emit } = useContext(SocketContext);
+  const { subscribe, sendMessage, unsubscribe } = useContext(SocketContext);
   const { t } = useTranslation();
   const { channels, currentChannelId } = useSelector(getChannelsInfo);
   const loaded = useSelector(getLoadingStatus);
@@ -35,11 +31,11 @@ const Chat = () => {
     dispatch(loadData(user.token));
   }, [dispatch, user.token]);
   useEffect(() => {
-    subscribe('newMessage', (message) => dispatch(addMessageAction({ message })));
-    subscribe('newChannel', (channel) => dispatch(addChannelAction({ channel })));
-    subscribe('renameChannel', (channel) => dispatch(renameChannelAction({ channel })));
-    subscribe('removeChannel', ({ id }) => dispatch(deleteChannelAction({ id })));
-  }, [dispatch, subscribe]);
+    subscribe();
+    return () => {
+      unsubscribe();
+    };
+  }, [dispatch, subscribe, unsubscribe]);
   const addChannel = useCallback(
     () => dispatch(openModal({ type: 'addChannel' })), [dispatch],
   );
@@ -50,11 +46,14 @@ const Chat = () => {
     (id) => dispatch(openModal({ type: 'deleteChannel', extra: { channelId: id } })), [dispatch],
     [],
   );
-  const emitMessage = useCallback(
+  const addMessage = useCallback(
     ({ message }, actions) => {
-      emit('newMessage', { channelId: currentChannelId, userName: user.userName, body: message }, () => actions.resetForm());
+      sendMessage(
+        { channelId: currentChannelId, userName: user.userName, body: message },
+        () => actions.resetForm(),
+      );
     },
-    [currentChannelId, user, emit],
+    [currentChannelId, user, sendMessage],
   );
   const changeChannel = useCallback(
     (id) => {
@@ -96,7 +95,7 @@ const Chat = () => {
             </div>
             <MessagesBox messages={messages} />
             <div className="mt-auto px-5 py-3">
-              <AddMessage onSubmit={emitMessage} />
+              <AddMessage onSubmit={addMessage} />
             </div>
           </div>
         </div>

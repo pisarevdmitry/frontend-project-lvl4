@@ -14,10 +14,10 @@ const RenameChannel = ({ close }) => {
   const channelsNames = useSelector(getChannelsNames);
   const renamingChannel = useSelector(getRenamingChannel);
   const { t } = useTranslation();
-  const { emit } = useContext(SocketContext);
+  const { renameChannel } = useContext(SocketContext);
   const inputEl = useRef(null);
-  const renameChannel = ({ name }) => {
-    emit('renameChannel', { name, id: renamingChannel.id }, (() => close()));
+  const handleSubmit = ({ name }) => {
+    renameChannel({ name, id: renamingChannel.id }, (() => close()));
   };
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const RenameChannel = ({ close }) => {
   const formik = useFormik({
     initialValues: { name: renamingChannel.name },
     validationSchema: schema,
-    onSubmit: renameChannel,
+    onSubmit: handleSubmit,
     validateOnChange: false,
     validateOnBlur: false,
   });
