@@ -14,10 +14,10 @@ const RenameChannel = ({ close }) => {
   const channelsNames = useSelector(getChannelsNames);
   const renamingChannel = useSelector(getRenamingChannel);
   const { t } = useTranslation();
-  const { socket } = useContext(SocketContext);
+  const { emit } = useContext(SocketContext);
   const inputEl = useRef(null);
   const renameChannel = ({ name }) => {
-    socket.emit('renameChannel', { name, id: renamingChannel.id }, (() => close()));
+    emit('renameChannel', { name, id: renamingChannel.id }, (() => close()));
   };
 
   useEffect(() => {

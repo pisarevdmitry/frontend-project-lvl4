@@ -24,7 +24,7 @@ import AddMessage from '../AddMessage';
 
 const Chat = () => {
   const { user } = useContext(UserContext);
-  const { socket } = useContext(SocketContext);
+  const { subscribe, emit } = useContext(SocketContext);
   const { t } = useTranslation();
   const { channels, currentChannelId } = useSelector(getChannelsInfo);
   const loaded = useSelector(getLoadingStatus);
@@ -35,11 +35,11 @@ const Chat = () => {
     dispatch(loadData(user.token));
   }, [dispatch, user.token]);
   useEffect(() => {
-    socket.on('newMessage', (message) => dispatch(addMessageAction({ message })));
-    socket.on('newChannel', (channel) => dispatch(addChannelAction({ channel })));
-    socket.on('renameChannel', (channel) => dispatch(renameChannelAction({ channel })));
-    socket.on('removeChannel', ({ id }) => dispatch(deleteChannelAction({ id })));
-  }, [dispatch, socket]);
+    subscribe('newMessage', (message) => dispatch(addMessageAction({ message })));
+    subscribe('newChannel', (channel) => dispatch(addChannelAction({ channel })));
+    subscribe('renameChannel', (channel) => dispatch(renameChannelAction({ channel })));
+    subscribe('removeChannel', ({ id }) => dispatch(deleteChannelAction({ id })));
+  }, [dispatch, subscribe]);
   const addChannel = useCallback(
     () => dispatch(openModal({ type: 'addChannel' })), [dispatch],
   );
@@ -52,9 +52,9 @@ const Chat = () => {
   );
   const emitMessage = useCallback(
     ({ message }, actions) => {
-      socket.emit('newMessage', { channelId: currentChannelId, userName: user.userName, body: message }, () => actions.resetForm());
+      emit('newMessage', { channelId: currentChannelId, userName: user.userName, body: message }, () => actions.resetForm());
     },
-    [currentChannelId, user, socket],
+    [currentChannelId, user, emit],
   );
   const changeChannel = useCallback(
     (id) => {

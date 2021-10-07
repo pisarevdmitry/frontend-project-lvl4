@@ -7,15 +7,15 @@ import { SocketContext } from '../../context.js';
 
 const DeleteChannel = ({ close }) => {
   const { channelId } = useSelector(getExtraData);
-  const { socket } = useContext(SocketContext);
+  const { emit } = useContext(SocketContext);
   const { t } = useTranslation();
   const [disabled, setDisabled] = useState(false);
   const deleteChannel = useCallback(
     () => {
       setDisabled(true);
-      socket.emit('removeChannel', { id: channelId }, () => close());
+      emit('removeChannel', { id: channelId }, () => close());
     },
-    [channelId, socket, close],
+    [channelId, emit, close],
   );
   return (
     <>

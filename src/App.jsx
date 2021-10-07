@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import storage from './storage.js';
-import { UserContext, SocketContext } from './context.js';
+import { UserContext } from './context.js';
 import PrivateRoute from './components/PrivateRoute';
 import GuestOnlyRoute from './components/GuestOnlyRoute';
 import Header from './components/Header';
@@ -19,7 +19,7 @@ const getUserData = () => {
   return JSON.parse(storageData);
 };
 
-const App = ({ socket }) => {
+const App = () => {
   const { isOpened, type } = useSelector(getModalStatus);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -38,36 +38,34 @@ const App = ({ socket }) => {
   );
   return (
     <UserContext.Provider value={{ user, updateUser }}>
-      <SocketContext.Provider value={{ socket }}>
-        <div className="d-flex flex-column h-100" aria-hidden={isOpened}>
-          <Router>
-            <Switch>
-              <Route exact path="/">
-                <PrivateRoute redirectPath="/login">
-                  <Header user={user} logout={logout} />
-                  <Chat />
-                </PrivateRoute>
-              </Route>
-              <Route exact path="/login">
-                <GuestOnlyRoute redirectPath="/">
-                  <Header user={user} logout={logout} />
-                  <LoginPage />
-                </GuestOnlyRoute>
-              </Route>
-              <Route exact path="/signup">
-                <GuestOnlyRoute redirectPath="/">
-                  <Header user={user} logout={logout} />
-                  <SignUpPage />
-                </GuestOnlyRoute>
-              </Route>
-              <Route path="*">
-                <NotFoundPage />
-              </Route>
-            </Switch>
-          </Router>
-        </div>
-        <Modal isOpened={isOpened} type={type} handleClose={closeModal} />
-      </SocketContext.Provider>
+      <div className="d-flex flex-column h-100" aria-hidden={isOpened}>
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              <PrivateRoute redirectPath="/login">
+                <Header user={user} logout={logout} />
+                <Chat />
+              </PrivateRoute>
+            </Route>
+            <Route exact path="/login">
+              <GuestOnlyRoute redirectPath="/">
+                <Header user={user} logout={logout} />
+                <LoginPage />
+              </GuestOnlyRoute>
+            </Route>
+            <Route exact path="/signup">
+              <GuestOnlyRoute redirectPath="/">
+                <Header user={user} logout={logout} />
+                <SignUpPage />
+              </GuestOnlyRoute>
+            </Route>
+            <Route path="*">
+              <NotFoundPage />
+            </Route>
+          </Switch>
+        </Router>
+      </div>
+      <Modal isOpened={isOpened} type={type} handleClose={closeModal} />
     </UserContext.Provider>
 
   );

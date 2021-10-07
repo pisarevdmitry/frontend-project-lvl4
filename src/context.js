@@ -5,6 +5,4 @@ export const UserContext = React.createContext({
   updateUser: () => {},
 });
 
-export const SocketContext = React.createContext({
-  socket: null,
-});
+export const SocketContext = React.createContext();

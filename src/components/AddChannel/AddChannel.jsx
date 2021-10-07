@@ -14,9 +14,9 @@ const AddChannel = ({ close }) => {
   const channelsNames = useSelector(getChannelsNames);
   const inputEl = useRef(null);
   const { t } = useTranslation();
-  const { socket } = useContext(SocketContext);
+  const { emit } = useContext(SocketContext);
   const addChannel = ({ name }) => {
-    socket.emit('newChannel', { name }, (() => close()));
+    emit('newChannel', { name }, (() => close()));
   };
 
   useEffect(() => {
