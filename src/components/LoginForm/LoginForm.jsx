@@ -7,10 +7,7 @@ import * as yup from 'yup';
 import { Button } from 'react-bootstrap';
 import cn from 'classnames';
 import _ from 'lodash';
-import axios from 'axios';
 import { UserContext } from '../../context.js';
-import apiRoutes from '../../routes.js';
-import storage from '../../storage.js';
 
 const schema = yup.object().shape({
   userName: yup.string().required(),
@@ -18,24 +15,19 @@ const schema = yup.object().shape({
 });
 
 const LoginForm = () => {
-  const { updateUser } = useContext(UserContext);
+  const { logIn } = useContext(UserContext);
   const { t } = useTranslation();
   const inputEl = useRef(null);
   useEffect(() => {
     inputEl.current.focus();
   }, []);
   const submit = ({ userName: username, password }, { setSubmitting, setErrors }) => {
-    axios.post(apiRoutes.loginPath(), { username, password })
-      .then(({ data }) => {
-        const user = { token: data.token, userName: data.username };
-        localStorage.setItem(storage.getTokenKey(),
-          JSON.stringify(user));
-        updateUser(user);
-      })
-      .catch(() => {
-        setSubmitting(false);
-        setErrors({ error: 'errors.forbidden' });
-      });
+    logIn(username, password).then(() => {
+      setSubmitting(false);
+    }).catch((error) => {
+      setSubmitting(false);
+      setErrors({ error: error.message });
+    });
   };
   const formik = useFormik({
     initialValues: { userName: '', password: '' },

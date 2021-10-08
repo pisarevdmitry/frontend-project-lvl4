@@ -41,6 +41,7 @@ export default {
     sure: 'Уверены?',
     rename: 'Переименовать',
     delete: 'Удалить',
+    loading: 'ЗАГРУЗКА...',
   },
 
 };

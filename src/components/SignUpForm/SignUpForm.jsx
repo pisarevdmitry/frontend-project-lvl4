@@ -6,10 +6,7 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import { Button } from 'react-bootstrap';
 import cn from 'classnames';
-import axios from 'axios';
 import { UserContext } from '../../context.js';
-import apiRoutes from '../../routes.js';
-import storage from '../../storage.js';
 
 const schema = yup.object().shape({
   userName: yup.string().required('errors.required').min(3, 'errors.range').max(20, 'errors.range'),
@@ -18,26 +15,20 @@ const schema = yup.object().shape({
 });
 
 const SignUpForm = () => {
-  const { updateUser } = useContext(UserContext);
+  const { signUp } = useContext(UserContext);
   const { t } = useTranslation();
   const inputEl = useRef(null);
   useEffect(() => {
     inputEl.current.focus();
   }, []);
   const submit = ({ userName: username, password }, { setSubmitting, setErrors }) => {
-    axios.post(apiRoutes.signUpPath(), { username, password })
-      .then(({ data }) => {
-        const user = { token: data.token, userName: data.username };
-        localStorage.setItem(storage.getTokenKey(),
-          JSON.stringify(user));
-        updateUser(user);
-      })
-      .catch((e) => {
-        if (e.response.data.statusCode === 409) {
-          setSubmitting(false);
-          setErrors({ network: 'errors.exists' });
-        }
-      });
+    signUp(username, password).then(() => {
+      setSubmitting(false);
+    }).catch((error) => {
+      console.log('error', error);
+      setSubmitting(false);
+      setErrors({ network: error.message });
+    });
   };
   const formik = useFormik({
     initialValues: { userName: '', password: '', confirmPassword: '' },

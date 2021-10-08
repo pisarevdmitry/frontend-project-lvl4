@@ -40,5 +40,6 @@ export default {
     sure: 'Sure?',
     rename: 'Renaim',
     delete: 'Delete',
+    loading: 'LOADING...',
   },
 };

@@ -17,6 +17,7 @@ import {
 import ChannelsList from '../ChannelsList';
 import MessagesBox from '../MessagesBox';
 import AddMessage from '../AddMessage';
+import Loader from '../Loader';
 
 const Chat = () => {
   const { user } = useContext(UserContext);
@@ -62,7 +63,7 @@ const Chat = () => {
     },
     [currentChannelId, dispatch],
   );
-  if (!loaded) return null;
+  if (!loaded) return <Loader />;
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
       <div className="row h-100 bg-white flex-md-row">

@@ -13,6 +13,7 @@ import NotFoundPage from './components/NotFoundPage';
 import Modal from './components/Modal';
 import { getModalStatus } from './selectors';
 import { closeModal as closeModalAction } from './actions';
+import buildAuthApi from './buildAuthApi.js';
 
 const getUserData = () => {
   const storageData = localStorage.getItem(storage.getTokenKey());
@@ -25,37 +26,31 @@ const App = () => {
   useEffect(() => {
   }, []);
   const [user, updateUser] = useState(getUserData());
-  const logout = useCallback(
-    () => {
-      localStorage.removeItem(storage.getTokenKey());
-      updateUser(null);
-    },
-    [],
-  );
+  const authApi = buildAuthApi(updateUser);
   const closeModal = useCallback(
     () => dispatch(closeModalAction()),
     [dispatch],
   );
   return (
-    <UserContext.Provider value={{ user, updateUser }}>
+    <UserContext.Provider value={{ user, ...authApi }}>
       <div className="d-flex flex-column h-100" aria-hidden={isOpened}>
         <Router>
           <Switch>
             <Route exact path="/">
               <PrivateRoute redirectPath="/login">
-                <Header user={user} logout={logout} />
+                <Header user={user} logout={authApi.logOut} />
                 <Chat />
               </PrivateRoute>
             </Route>
             <Route exact path="/login">
               <GuestOnlyRoute redirectPath="/">
-                <Header user={user} logout={logout} />
+                <Header user={user} logout={authApi.logOut} />
                 <LoginPage />
               </GuestOnlyRoute>
             </Route>
             <Route exact path="/signup">
               <GuestOnlyRoute redirectPath="/">
-                <Header user={user} logout={logout} />
+                <Header user={user} logout={authApi.logOut} />
                 <SignUpPage />
               </GuestOnlyRoute>
             </Route>
@@ -67,7 +62,6 @@ const App = () => {
       </div>
       <Modal isOpened={isOpened} type={type} handleClose={closeModal} />
     </UserContext.Provider>
-
   );
 };
 

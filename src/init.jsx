@@ -29,6 +29,7 @@ const initSocketApi = (socketClient) => ({
     socketClient.removeAllListeners();
   },
 });
+
 const init = (socketClient = io()) => {
   initTranslation();
   const socketApi = initSocketApi(socketClient);
