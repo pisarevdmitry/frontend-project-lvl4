@@ -48,10 +48,10 @@ const Chat = () => {
     [],
   );
   const addMessage = useCallback(
-    ({ message }, actions) => {
+    ({ message }, cb) => {
       sendMessage(
         { channelId: currentChannelId, userName: user.userName, body: message },
-        () => actions.resetForm(),
+        () => cb(),
       );
     },
     [currentChannelId, user, sendMessage],
@@ -96,7 +96,7 @@ const Chat = () => {
             </div>
             <MessagesBox messages={messages} />
             <div className="mt-auto px-5 py-3">
-              <AddMessage onSubmit={addMessage} />
+              <AddMessage currentChannel={currentChannelId} onSubmit={addMessage} />
             </div>
           </div>
         </div>
