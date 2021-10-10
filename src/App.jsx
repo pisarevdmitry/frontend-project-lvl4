@@ -12,7 +12,7 @@ import SignUpPage from './components/SignUpPage';
 import NotFoundPage from './components/NotFoundPage';
 import Modal from './components/Modal';
 import { getModalStatus } from './selectors';
-import { closeModal as closeModalAction } from './actions';
+import { actions } from './reducers';
 import buildAuthApi from './buildAuthApi.js';
 
 const getUserData = () => {
@@ -28,7 +28,7 @@ const App = () => {
   const [user, updateUser] = useState(getUserData());
   const authApi = buildAuthApi(updateUser);
   const closeModal = useCallback(
-    () => dispatch(closeModalAction()),
+    () => dispatch(actions.closeModal()),
     [dispatch],
   );
   return (

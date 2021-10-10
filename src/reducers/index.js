@@ -4,8 +4,8 @@ import channelsReducer, {
 } from './channel.js';
 import messagesReducer, { addMessage } from './messages.js';
 import loadingReducer from './loading.js';
-import modalReducer from './modal.js';
-import networkReducer from './network.js';
+import modalReducer, { openModal, closeModal } from './modal.js';
+import networkReducer, { startProccessing, finishProccessing } from './network.js';
 
 const store = configureStore({
   reducer: {
@@ -24,6 +24,10 @@ export const actions = {
   addChannel,
   renameChannel,
   deleteChannel,
+  openModal,
+  closeModal,
+  startProccessing,
+  finishProccessing,
 };
 
 export default store;

@@ -1,5 +1,4 @@
-import { createReducer } from '@reduxjs/toolkit';
-import { openModal, closeModal } from '../actions/index.js';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isOpened: false,
@@ -7,13 +6,19 @@ const initialState = {
   extraData: null,
 };
 
-const modalReducer = createReducer(initialState, (builder) => {
-  builder.addCase(openModal, (_state, { payload }) => (
-    { isOpened: true, type: payload.type, extraData: payload.extra || null }
-  ));
-  builder.addCase(closeModal, () => (
-    { isOpened: false, type: null, extraData: null }
-  ));
+const modalSlice = createSlice({
+  name: 'modalInfo',
+  initialState,
+  reducers: {
+    openModal: (_state, { payload }) => (
+      { isOpened: true, type: payload.type, extraData: payload.extra || null }
+    ),
+    closeModal: () => (
+      { isOpened: false, type: null, extraData: null }
+    ),
+  },
 });
 
-export default modalReducer;
+export const { openModal, closeModal } = modalSlice.actions;
+
+export default modalSlice.reducer;

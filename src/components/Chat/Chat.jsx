@@ -10,9 +10,6 @@ import {
   getNetworkStatus,
 } from '../../selectors';
 import { UserContext, SocketContext } from '../../context.js';
-import {
-  openModal,
-} from '../../actions';
 import { actions } from '../../reducers';
 import ChannelsList from '../ChannelsList';
 import MessagesBox from '../MessagesBox';
@@ -39,13 +36,13 @@ const Chat = () => {
     };
   }, [dispatch, subscribe, unsubscribe]);
   const addChannel = useCallback(
-    () => dispatch(openModal({ type: 'addChannel' })), [dispatch],
+    () => dispatch(actions.openModal({ type: 'addChannel' })), [dispatch],
   );
   const renameChannel = useCallback(
-    (id) => dispatch(openModal({ type: 'renameChannel', extra: { channelId: id } })), [dispatch],
+    (id) => dispatch(actions.openModal({ type: 'renameChannel', extra: { channelId: id } })), [dispatch],
   );
   const deleteChannel = useCallback(
-    (id) => dispatch(openModal({ type: 'deleteChannel', extra: { channelId: id } })), [dispatch],
+    (id) => dispatch(actions.openModal({ type: 'deleteChannel', extra: { channelId: id } })), [dispatch],
     [],
   );
   const addMessage = useCallback(
