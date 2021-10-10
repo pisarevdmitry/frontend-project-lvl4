@@ -3,29 +3,21 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import { Button, InputGroup } from 'react-bootstrap';
-import withTimeout from '../../timeout.js';
-import TIMEOUT from '../../constans.js';
 
 const schema = yup.object().shape({
   message: yup.string().required('errors.required'),
 });
 
-const AddMessage = ({ onSubmit, currentChannel }) => {
+const AddMessage = ({ onSubmit, currentChannel, networkStatus }) => {
   const { t } = useTranslation();
   const inputEl = useRef(null);
-  const handleSubmit = (values, { resetForm, setSubmitting }) => new Promise((resolve) => {
+  const handleSubmit = (values, { resetForm, setSubmitting }) => {
     const onSuccess = () => {
       setSubmitting(false);
       resetForm();
-      resolve();
     };
-    const onTimeout = () => {
-      setSubmitting(false);
-      resolve();
-    };
-    const cb = withTimeout(onSuccess, onTimeout, TIMEOUT);
-    onSubmit(values, cb);
-  });
+    onSubmit(values, onSuccess);
+  };
   useEffect(() => {
     inputEl.current.focus();
   }, [currentChannel]);
@@ -36,7 +28,6 @@ const AddMessage = ({ onSubmit, currentChannel }) => {
     validateOnChange: false,
     validateOnBlur: false,
   });
-  console.log(formik.isSubmitting);
   return (
     <form onSubmit={formik.handleSubmit} noValidate className="py-1 border rounded-2">
       <InputGroup>
@@ -51,7 +42,7 @@ const AddMessage = ({ onSubmit, currentChannel }) => {
           ref={inputEl}
           disabled={formik.isSubmitting}
         />
-        <Button disabled={!formik.dirty || formik.isSubmitting} type="submit" variant="group-vertical">
+        <Button disabled={!formik.dirty || formik.isSubmitting || networkStatus === 'proccessing'} type="submit" variant="group-vertical">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
             <path
               fillRule="evenodd"

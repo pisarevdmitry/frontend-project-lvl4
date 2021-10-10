@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-import { loadData } from '../actions/index.js';
+import { loadData } from './channel.js';
 
 const loadingSlice = createSlice({
   name: 'loadingInfo',

@@ -1,41 +1,46 @@
 /* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit';
-import {
-  loadData,
-  changeChannel,
-  addChannel,
-  renameChannel,
-  deleteChannel,
-} from '../actions/index.js';
+import axios from 'axios';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import routes from '../routes.js';
+
+export const loadData = createAsyncThunk('fetchData', async (token) => {
+  const route = routes.getData();
+  const responce = await axios.get(route, { headers: { Authorization: `Bearer ${token}` } });
+  return responce.data;
+});
 
 const channelSlice = createSlice({
   name: 'channelsInfo',
   initialState: { channels: null, loaded: false, currentChannelId: null },
-  reducers: {},
+  reducers: {
+    changeChannel: (state, { payload }) => {
+      state.currentChannelId = payload.id;
+    },
+    addChannel: (state, { payload }) => {
+      state.channels = [...state.channels, payload.channel];
+      state.currentChannelId = payload.channel.id;
+    },
+    renameChannel: (state, { payload }) => {
+      const renamedChannel = state.channels.find(({ id }) => id === payload.channel.id);
+      renamedChannel.name = payload.channel.name;
+    },
+    deleteChannel: (state, { payload }) => {
+      state.channels = state.channels.filter((channel) => channel.id !== payload.id);
+      const defaultChannel = state.channels.find(({ name }) => name === 'general');
+      state.currentChannelId = defaultChannel.id;
+    },
+  },
   extraReducers: (buider) => {
     buider.addCase(loadData.fulfilled, (state, { payload }) => {
       state.channels = payload.channels;
       state.loaded = true;
       state.currentChannelId = payload.currentChannelId;
     });
-    buider.addCase(changeChannel, (state, { payload }) => {
-      state.currentChannelId = payload.id;
-    });
-    buider.addCase(addChannel, (state, { payload }) => {
-      state.channels = [...state.channels, payload.channel];
-      state.currentChannelId = payload.channel.id;
-    });
-    buider.addCase(renameChannel, (state, { payload }) => {
-      const renamedChannel = state.channels.find(({ id }) => id === payload.channel.id);
-      renamedChannel.name = payload.channel.name;
-    });
-    buider.addCase(deleteChannel, (state, { payload }) => {
-      const newState = { ...state };
-      state.channels = state.channels.filter((channel) => channel.id !== payload.id);
-      const defaultChannel = newState.channels.find(({ name }) => name === 'general');
-      state.currentChannelId = defaultChannel.id;
-    });
   },
 });
+
+export const {
+  changeChannel, addChannel, renameChannel, deleteChannel,
+} = channelSlice.actions;
 
 export default channelSlice.reducer;

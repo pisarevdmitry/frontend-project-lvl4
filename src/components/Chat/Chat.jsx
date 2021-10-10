@@ -7,13 +7,13 @@ import {
   getLoadingStatus,
   getCurrentChannelMessages,
   getCurrentChannelName,
+  getNetworkStatus,
 } from '../../selectors';
 import { UserContext, SocketContext } from '../../context.js';
 import {
-  loadData,
-  changeChannel as changeChannelAction,
   openModal,
 } from '../../actions';
+import { actions } from '../../reducers';
 import ChannelsList from '../ChannelsList';
 import MessagesBox from '../MessagesBox';
 import AddMessage from '../AddMessage';
@@ -27,9 +27,10 @@ const Chat = () => {
   const loaded = useSelector(getLoadingStatus);
   const currentChannelName = useSelector(getCurrentChannelName);
   const messages = useSelector(getCurrentChannelMessages);
+  const networkStatus = useSelector(getNetworkStatus);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(loadData(user.token));
+    dispatch(actions.loadData(user.token));
   }, [dispatch, user.token]);
   useEffect(() => {
     subscribe();
@@ -59,7 +60,7 @@ const Chat = () => {
   const changeChannel = useCallback(
     (id) => {
       if (id === currentChannelId) return;
-      dispatch(changeChannelAction({ id }));
+      dispatch(actions.changeChannel({ id }));
     },
     [currentChannelId, dispatch],
   );
@@ -70,7 +71,7 @@ const Chat = () => {
         <div className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
           <div className="d-flex justify-content-between mb-2 ps-4 pe-2">
             <span>{t('chat.channels')}</span>
-            <Button onClick={addChannel} type="button" className="p-0 text-primary " variant="group-vertical">
+            <Button disabled={networkStatus === 'proccessing'} onClick={addChannel} type="button" className="p-0 text-primary " variant="group-vertical">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
                 <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
@@ -84,6 +85,7 @@ const Chat = () => {
             current={currentChannelId}
             onRename={renameChannel}
             onDelete={deleteChannel}
+            networkStatus={networkStatus}
           />
         </div>
         <div className="col p-0 h-100">
@@ -96,7 +98,11 @@ const Chat = () => {
             </div>
             <MessagesBox messages={messages} />
             <div className="mt-auto px-5 py-3">
-              <AddMessage currentChannel={currentChannelId} onSubmit={addMessage} />
+              <AddMessage
+                networkStatus={networkStatus}
+                currentChannel={currentChannelId}
+                onSubmit={addMessage}
+              />
             </div>
           </div>
         </div>

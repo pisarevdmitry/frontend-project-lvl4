@@ -1,16 +1,7 @@
-import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
-import axios from 'axios';
-import routes from '../routes.js';
+import { createAction } from '@reduxjs/toolkit';
 
-export const loadData = createAsyncThunk('fetchData', async (token) => {
-  const route = routes.getData();
-  const responce = await axios.get(route, { headers: { Authorization: `Bearer ${token}` } });
-  return responce.data;
-});
-export const addMessage = createAction('ADD_MESSAGE');
-export const changeChannel = createAction('CHANGE_CHANNEL');
 export const openModal = createAction('OPEN_MODAL');
 export const closeModal = createAction('CLOSE_MODAL');
-export const addChannel = createAction('ADD_CHANNEL');
-export const renameChannel = createAction('RENAME_CHANNEL');
 export const deleteChannel = createAction('DELETE_CHANNEL');
+export const startProccessing = createAction('START_PROCCESIING');
+export const finishProccessing = createAction('FINISH_PROCCESIING');

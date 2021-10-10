@@ -2,7 +2,7 @@ import React from 'react';
 import Channel from '../Channel';
 
 const ChannelsList = ({
-  channels, current, changeChannel, onRename, onDelete,
+  channels, current, changeChannel, onRename, onDelete, networkStatus,
 }) => (
   <ul className="nav flex-column nav-pills nav-fill px-2">
     {channels.map(({ name, id, removable }) => (
@@ -15,6 +15,7 @@ const ChannelsList = ({
         changeChannel={changeChannel}
         onRename={onRename}
         onDelete={onDelete}
+        networkStatus={networkStatus}
       />
     ))}
   </ul>

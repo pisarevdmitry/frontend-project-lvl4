@@ -30,6 +30,7 @@ export const getChannelsNames = createSelector(
   (channels) => channels.map((channel) => channel.name),
 );
 export const getExtraData = (state) => state.modal.extraData;
+export const getNetworkStatus = (state) => state.network.status;
 export const getRenamingChannel = createSelector(
   getChannels,
   getExtraData,
