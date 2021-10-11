@@ -5,51 +5,13 @@ import { Provider } from 'react-redux';
 import { io } from 'socket.io-client';
 import initTranslation from './init18n.js';
 import { SocketContext } from './context.js';
-import store, { actions } from './reducers';
+import store from './reducers';
 import App from './App.jsx';
-import withTimeout from './timeout';
-import TIMER from './constans.js';
-
-const onTimeoutExpire = () => store.dispatch(actions.finishProccessing());
-const handleSuccess = (cb) => () => {
-  store.dispatch(actions.finishProccessing());
-  cb();
-};
-const initSocketApi = (socketClient) => ({
-  subscribe: () => {
-    socketClient.on('newMessage', (message) => store.dispatch(actions.addMessage({ message })));
-    socketClient.on('newChannel', (channel) => store.dispatch(actions.addChannel({ channel })));
-    socketClient.on('renameChannel', (channel) => store.dispatch(actions.renameChannel({ channel })));
-    socketClient.on('removeChannel', ({ id }) => store.dispatch(actions.deleteChannel({ id })));
-  },
-  sendMessage: (data, onSuccess) => {
-    store.dispatch(actions.startProccessing());
-    const successCb = handleSuccess(onSuccess);
-    socketClient.emit('newMessage', data, withTimeout(successCb, onTimeoutExpire, TIMER));
-  },
-  addChannel: (data, onSuccess) => {
-    store.dispatch(actions.startProccessing());
-    const successCb = handleSuccess(onSuccess);
-    socketClient.emit('newChannel', data, withTimeout(successCb, onTimeoutExpire, TIMER));
-  },
-  deleteChannel: (data, onSuccess) => {
-    store.dispatch(actions.startProccessing());
-    const successCb = handleSuccess(onSuccess);
-    socketClient.emit('removeChannel', data, withTimeout(successCb, onTimeoutExpire, TIMER));
-  },
-  renameChannel: (data, onSuccess) => {
-    store.dispatch(actions.startProccessing());
-    const successCb = handleSuccess(onSuccess);
-    socketClient.emit('renameChannel', data, withTimeout(successCb, onTimeoutExpire, TIMER));
-  },
-  unsubscribe: () => {
-    socketClient.removeAllListeners();
-  },
-});
+import buildtSocketApi from './buildSocketApi.js';
 
 const init = (socketClient = io()) => {
   initTranslation();
-  const socketApi = initSocketApi(socketClient);
+  const socketApi = buildtSocketApi(socketClient);
   return (
     <Provider store={store}>
       <SocketContext.Provider value={socketApi}>
