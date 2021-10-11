@@ -10,6 +10,7 @@ export default {
       uniq: 'must be uniq',
       range: 'min 3 symbols max 20symbols',
       min: 'min 6 symbols',
+      connectionLost: 'Connection lost, trying to reconnect...',
     },
     chat: {
       channels: 'Channels',

@@ -30,7 +30,8 @@ export const getChannelsNames = createSelector(
   (channels) => channels.map((channel) => channel.name),
 );
 export const getExtraData = (state) => state.modal.extraData;
-export const getNetworkStatus = (state) => state.network.status;
+export const isProccessed = (state) => state.network.status === 'proccessing';
+export const isConnectionLost = (state) => state.network.socketConnection === 'lost';
 export const getRenamingChannel = createSelector(
   getChannels,
   getExtraData,

@@ -4,13 +4,19 @@ import { loadData } from './channel.js';
 
 const networkSlice = createSlice({
   name: 'networkInfo',
-  initialState: { status: 'ready' },
+  initialState: { status: 'ready', socketConnection: 'working' },
   reducers: {
     startProccessing: (state) => {
       state.status = 'proccessing';
     },
     finishProccessing: (state) => {
       state.status = 'ready';
+    },
+    lostConnection: (state) => {
+      state.socketConnection = 'lost';
+    },
+    reconnect: (state) => {
+      state.socketConnection = 'working';
     },
   },
   extraReducers: (buider) => {
@@ -23,6 +29,11 @@ const networkSlice = createSlice({
   },
 });
 
-export const { startProccessing, finishProccessing } = networkSlice.actions;
+export const {
+  startProccessing,
+  finishProccessing,
+  lostConnection,
+  reconnect,
+} = networkSlice.actions;
 
 export default networkSlice.reducer;

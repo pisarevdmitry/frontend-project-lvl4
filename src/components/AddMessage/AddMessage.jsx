@@ -8,7 +8,7 @@ const schema = yup.object().shape({
   message: yup.string().required('errors.required'),
 });
 
-const AddMessage = ({ onSubmit, currentChannel, networkStatus }) => {
+const AddMessage = ({ onSubmit, currentChannel, isProccessed }) => {
   const { t } = useTranslation();
   const inputEl = useRef(null);
   const handleSubmit = (values, { resetForm, setSubmitting }) => {
@@ -42,7 +42,7 @@ const AddMessage = ({ onSubmit, currentChannel, networkStatus }) => {
           ref={inputEl}
           disabled={formik.isSubmitting}
         />
-        <Button disabled={!formik.dirty || formik.isSubmitting || networkStatus === 'proccessing'} type="submit" variant="group-vertical">
+        <Button disabled={!formik.dirty || formik.isSubmitting || isProccessed} type="submit" variant="group-vertical">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
             <path
               fillRule="evenodd"

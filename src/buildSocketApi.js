@@ -13,6 +13,8 @@ const buildtSocketApi = (socketClient) => ({
     socketClient.on('newChannel', (channel) => store.dispatch(actions.addChannel({ channel })));
     socketClient.on('renameChannel', (channel) => store.dispatch(actions.renameChannel({ channel })));
     socketClient.on('removeChannel', ({ id }) => store.dispatch(actions.deleteChannel({ id })));
+    socketClient.on('disconnect', () => store.dispatch(actions.lostConnection()));
+    socketClient.on('reconnect', () => store.dispatch(actions.reconnect()));
   },
   sendMessage: (data, onSuccess) => {
     store.dispatch(actions.startProccessing());

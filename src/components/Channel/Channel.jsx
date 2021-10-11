@@ -3,7 +3,7 @@ import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 const Channel = ({
-  name, id, changeChannel, current, removable, onRename, onDelete, networkStatus,
+  name, id, changeChannel, current, removable, onRename, onDelete, isProccessed,
 }) => {
   const handleClick = useCallback(() => changeChannel(id), [id, changeChannel]);
   const handleRename = useCallback(() => onRename(id), [id, onRename]);
@@ -18,7 +18,7 @@ const Channel = ({
             <span className="me-1">#</span>
             {name}
           </Button>
-          <Dropdown.Toggle disabled={networkStatus === 'proccessing'} split variant={isCurrent && 'secondary'} id="dropdown-split-basic" />
+          <Dropdown.Toggle disabled={isProccessed} split variant={isCurrent && 'secondary'} id="dropdown-split-basic" />
           <Dropdown.Menu>
             <Dropdown.Item onClick={handleDelete}>{t('delete')}</Dropdown.Item>
             <Dropdown.Item onClick={handleRename}>{t('rename')}</Dropdown.Item>

@@ -5,7 +5,9 @@ import channelsReducer, {
 import messagesReducer, { addMessage } from './messages.js';
 import loadingReducer from './loading.js';
 import modalReducer, { openModal, closeModal } from './modal.js';
-import networkReducer, { startProccessing, finishProccessing } from './network.js';
+import networkReducer, {
+  startProccessing, finishProccessing, lostConnection, reconnect,
+} from './network.js';
 
 const store = configureStore({
   reducer: {
@@ -28,6 +30,8 @@ export const actions = {
   closeModal,
   startProccessing,
   finishProccessing,
+  lostConnection,
+  reconnect,
 };
 
 export default store;
