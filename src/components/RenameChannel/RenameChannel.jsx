@@ -57,4 +57,4 @@ const RenameChannel = ({ close }) => {
   );
 };
 
-export default RenameChannel;
+export default React.memo(RenameChannel);

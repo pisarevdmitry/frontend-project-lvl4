@@ -56,4 +56,4 @@ const AddMessage = ({ onSubmit, currentChannel, networkStatus }) => {
   );
 };
 
-export default AddMessage;
+export default React.memo(AddMessage);

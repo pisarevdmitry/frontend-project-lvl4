@@ -28,4 +28,4 @@ const DeleteChannel = ({ close }) => {
   );
 };
 
-export default DeleteChannel;
+export default React.memo(DeleteChannel);

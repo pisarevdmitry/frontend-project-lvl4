@@ -38,4 +38,4 @@ const Channel = ({
   );
 };
 
-export default Channel;
+export default React.memo(Channel);

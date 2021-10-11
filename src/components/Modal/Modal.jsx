@@ -35,4 +35,4 @@ const Modal = ({ isOpened, type, handleClose }) => {
   );
 };
 
-export default Modal;
+export default React.memo(Modal);
