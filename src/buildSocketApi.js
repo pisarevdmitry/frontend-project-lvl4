@@ -1,12 +1,13 @@
 import store, { actions } from './reducers/index.js';
 import withTimeout from './timeout.js';
-import TIMER from './constans.js';
 
 const onTimeoutExpire = () => store.dispatch(actions.finishProccessing());
 const handleSuccess = (cb) => () => {
   store.dispatch(actions.finishProccessing());
   cb();
 };
+
+const TIMER = 5000;
 
 const buildtSocketApi = (socketClient) => {
   socketClient.on('disconnect', () => store.dispatch(actions.lostConnection()));
