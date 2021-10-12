@@ -25,7 +25,6 @@ const SignUpForm = () => {
     signUp(username, password).then(() => {
       setSubmitting(false);
     }).catch((error) => {
-      console.log('error', error);
       setSubmitting(false);
       setErrors({ network: error.message });
     });
