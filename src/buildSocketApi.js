@@ -40,7 +40,10 @@ const buildtSocketApi = (socketClient) => {
       socketClient.emit('renameChannel', data, withTimeout(successCb, onTimeoutExpire, TIMER));
     },
     unsubscribe: () => {
-      socketClient.removeAllListeners();
+      socketClient.removeAllListeners('newMessage');
+      socketClient.removeAllListeners('newChannel');
+      socketClient.removeAllListeners('renameChannel');
+      socketClient.removeAllListeners('removeChannel');
     },
   };
 };
