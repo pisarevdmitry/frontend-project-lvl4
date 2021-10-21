@@ -1,10 +1,27 @@
+/* eslint-disable functional/no-let, functional/no-this-expression */
 import store, { actions } from './slices/index.js';
-import withTimeout from './timeout.js';
 
 const onTimeoutExpire = () => store.dispatch(actions.finishProccessing());
 const handleSuccess = (cb) => () => {
   store.dispatch(actions.finishProccessing());
   cb();
+};
+
+const withTimeout = (onSuccess, onTimeout, timeout) => {
+  let called = false;
+
+  const timer = setTimeout(() => {
+    if (called) return;
+    called = true;
+    onTimeout();
+  }, timeout);
+
+  return (...args) => {
+    if (called) return;
+    called = true;
+    clearTimeout(timer);
+    onSuccess.apply(this, args);
+  };
 };
 
 const TIMER = 5000;

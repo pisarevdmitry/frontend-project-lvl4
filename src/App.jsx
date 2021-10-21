@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import storage from './storage.js';
 import { UserContext } from './context.js';
 import PrivateRoute from './components/PrivateRoute';
 import GuestOnlyRoute from './components/GuestOnlyRoute';
@@ -13,20 +12,20 @@ import NotFoundPage from './components/NotFoundPage';
 import Modal from './components/Modal';
 import { getModalStatus } from './selectors';
 import { actions } from './slices';
-import buildAuthApi from './buildAuthApi.js';
+import buildAuthApi, { TOKEN_KEY } from './buildAuthApi.js';
 
 const getUserData = () => {
-  const storageData = localStorage.getItem(storage.getTokenKey());
+  const storageData = localStorage.getItem(TOKEN_KEY);
   return JSON.parse(storageData);
 };
 
 const App = () => {
+  const [user, updateUser] = useState(getUserData());
+  const authApi = buildAuthApi(updateUser);
   const { isOpened, type } = useSelector(getModalStatus);
   const dispatch = useDispatch();
   useEffect(() => {
   }, []);
-  const [user, updateUser] = useState(getUserData());
-  const authApi = buildAuthApi(updateUser);
   const closeModal = useCallback(
     () => dispatch(actions.closeModal()),
     [dispatch],

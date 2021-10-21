@@ -1,12 +1,13 @@
 import axios from 'axios';
 import apiRoutes from './routes.js';
-import storage from './storage.js';
+
+export const TOKEN_KEY = 'APP_KEY';
 
 const buildAuthApi = (updateUser) => {
   const logIn = (username, password) => axios.post(apiRoutes.loginPath(), { username, password })
     .then(({ data }) => {
       const user = { token: data.token, userName: data.username };
-      localStorage.setItem(storage.getTokenKey(),
+      localStorage.setItem(TOKEN_KEY,
         JSON.stringify(user));
       updateUser(user);
     })
@@ -17,7 +18,7 @@ const buildAuthApi = (updateUser) => {
   const signUp = (username, password) => axios.post(apiRoutes.signUpPath(), { username, password })
     .then(({ data }) => {
       const user = { token: data.token, userName: data.username };
-      localStorage.setItem(storage.getTokenKey(),
+      localStorage.setItem(TOKEN_KEY,
         JSON.stringify(user));
       updateUser(user);
     })
@@ -28,7 +29,7 @@ const buildAuthApi = (updateUser) => {
     });
 
   const logOut = () => {
-    localStorage.removeItem(storage.getTokenKey());
+    localStorage.removeItem(TOKEN_KEY);
     updateUser(null);
   };
 
