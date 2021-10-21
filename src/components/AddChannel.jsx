@@ -3,33 +3,32 @@ import React, {
 } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { useTranslation } from 'react-i18next';
 import { Button } from 'react-bootstrap';
 import cn from 'classnames';
 import * as yup from 'yup';
-import { getChannelsNames, getRenamingChannel } from '../../selectors';
-import { SocketContext } from '../../context.js';
+import { useTranslation } from 'react-i18next';
+import { getChannelsNames } from '../selectors';
+import { SocketContext } from '../context.js';
 
-const RenameChannel = ({ close }) => {
+const AddChannel = ({ close }) => {
   const channelsNames = useSelector(getChannelsNames);
-  const renamingChannel = useSelector(getRenamingChannel);
-  const { t } = useTranslation();
-  const { renameChannel } = useContext(SocketContext);
   const inputEl = useRef(null);
+  const { t } = useTranslation();
+  const { addChannel } = useContext(SocketContext);
   const handleSubmit = ({ name }) => {
-    renameChannel({ name, id: renamingChannel.id }, (() => close()));
+    addChannel({ name }, (() => close()));
   };
 
   useEffect(() => {
     inputEl.current.focus();
-    inputEl.current.select();
   }, []);
   const schema = yup.object().shape({
     name: yup.string().required('errors.required').min(3, 'errors.range').max(20, 'errors.range')
       .notOneOf(channelsNames, 'errors.uniq'),
   });
+
   const formik = useFormik({
-    initialValues: { name: renamingChannel.name },
+    initialValues: { name: '' },
     validationSchema: schema,
     onSubmit: handleSubmit,
     validateOnChange: false,
@@ -39,13 +38,13 @@ const RenameChannel = ({ close }) => {
     <form onSubmit={formik.handleSubmit}>
       <div className="form-group">
         <input
-          data-testid="rename-channel"
+          data-testid="add-channel"
           ref={inputEl}
           name="name"
           className={cn('mb-2', 'form-control', { 'is-invalid': formik.errors.name })}
           id="name"
-          onChange={formik.handleChange}
           value={formik.values.name}
+          onChange={formik.handleChange}
         />
       </div>
       {formik.errors.name && <div className="invalid-feedback d-block">{t(formik.errors.name)}</div>}
@@ -54,7 +53,8 @@ const RenameChannel = ({ close }) => {
         <Button disabled={formik.isSubmitting} type="submit">{t('buttons.send')}</Button>
       </div>
     </form>
+
   );
 };
 
-export default React.memo(RenameChannel);
+export default React.memo(AddChannel);

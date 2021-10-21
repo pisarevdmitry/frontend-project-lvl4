@@ -1,4 +1,4 @@
-import store, { actions } from './reducers/index.js';
+import store, { actions } from './slices/index.js';
 import withTimeout from './timeout.js';
 
 const onTimeoutExpire = () => store.dispatch(actions.finishProccessing());

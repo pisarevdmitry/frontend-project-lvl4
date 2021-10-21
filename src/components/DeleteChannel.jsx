@@ -2,8 +2,8 @@ import React, { useState, useCallback, useContext } from 'react';
 import { Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { getExtraData } from '../../selectors';
-import { SocketContext } from '../../context.js';
+import { getExtraData } from '../selectors';
+import { SocketContext } from '../context.js';
 
 const DeleteChannel = ({ close }) => {
   const { channelId } = useSelector(getExtraData);

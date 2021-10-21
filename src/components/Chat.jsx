@@ -4,25 +4,23 @@ import { useTranslation } from 'react-i18next';
 import { Button } from 'react-bootstrap';
 import {
   getChannelsInfo,
-  getLoadingStatus,
   getCurrentChannelMessages,
   getCurrentChannelName,
   isProccessed as isProccessedSelector,
   isConnectionLost as isConnectionLostSelector,
-} from '../../selectors';
-import { UserContext, SocketContext } from '../../context.js';
-import { actions } from '../../reducers';
-import ChannelsList from '../ChannelsList';
-import MessagesBox from '../MessagesBox';
-import AddMessage from '../AddMessage';
-import Loader from '../Loader';
+} from '../selectors';
+import { UserContext, SocketContext } from '../context.js';
+import { actions } from '../slices';
+import ChannelsList from './ChannelsList';
+import MessagesBox from './MessagesBox';
+import AddMessage from './AddMessage';
+import Loader from './Loader';
 
 const Chat = () => {
   const { user } = useContext(UserContext);
   const { subscribe, sendMessage, unsubscribe } = useContext(SocketContext);
   const { t } = useTranslation();
-  const { channels, currentChannelId } = useSelector(getChannelsInfo);
-  const loaded = useSelector(getLoadingStatus);
+  const { channels, currentChannelId, loaded } = useSelector(getChannelsInfo);
   const currentChannelName = useSelector(getCurrentChannelName);
   const messages = useSelector(getCurrentChannelMessages);
   const isProccessed = useSelector(isProccessedSelector);

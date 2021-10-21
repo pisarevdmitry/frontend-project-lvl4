@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { io } from 'socket.io-client';
 import initTranslation from './init18n.js';
 import { SocketContext } from './context.js';
-import store from './reducers';
+import store from './slices';
 import App from './App.jsx';
 import buildtSocketApi from './buildSocketApi.js';
 

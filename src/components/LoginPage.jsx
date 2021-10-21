@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import LoginForm from '../LoginForm';
-import Image from './LoginPage_image.jpg';
+import LoginForm from './LoginForm';
+import Image from '../images/LoginPage_image.jpg';
 
 const LoginPage = () => {
   const { t } = useTranslation();

@@ -12,7 +12,7 @@ import SignUpPage from './components/SignUpPage';
 import NotFoundPage from './components/NotFoundPage';
 import Modal from './components/Modal';
 import { getModalStatus } from './selectors';
-import { actions } from './reducers';
+import { actions } from './slices';
 import buildAuthApi from './buildAuthApi.js';
 
 const getUserData = () => {

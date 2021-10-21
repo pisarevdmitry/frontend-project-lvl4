@@ -1,6 +1,6 @@
 import React from 'react';
-import SignUpForm from '../SignUpForm';
-import Image from './SignUpPage_image.jpg';
+import SignUpForm from './SignUpForm';
+import Image from '../images/SignUpPage_image.jpg';
 
 const SignUpPage = () => (
   <div className="container-fluid h-100">

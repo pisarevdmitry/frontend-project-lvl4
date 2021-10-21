@@ -1,9 +1,9 @@
 import React from 'react';
 import { Modal as BootstrapModal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import AddChannel from '../AddChannel';
-import RenameChannel from '../RenameChannel';
-import DeleteChannel from '../DeleteChannel';
+import AddChannel from './AddChannel';
+import RenameChannel from './RenameChannel';
+import DeleteChannel from './DeleteChannel';
 
 const modalTypeMapping = {
   addChannel: {

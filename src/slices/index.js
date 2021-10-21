@@ -3,7 +3,6 @@ import channelsReducer, {
   loadData, changeChannel, addChannel, renameChannel, deleteChannel,
 } from './channel.js';
 import messagesReducer, { addMessage } from './messages.js';
-import loadingReducer from './loading.js';
 import modalReducer, { openModal, closeModal } from './modal.js';
 import networkReducer, {
   startProccessing, finishProccessing, lostConnection, reconnect,
@@ -13,7 +12,6 @@ const store = configureStore({
   reducer: {
     channelsInfo: channelsReducer,
     messagesInfo: messagesReducer,
-    loadingInfo: loadingReducer,
     modal: modalReducer,
     network: networkReducer,
   },

@@ -7,6 +7,7 @@ start-backend:
 	npx nodemon bin/slack.js
 
 start-frontend:
+	TEST='test'
 	npx webpack serve
 
 install-deps:

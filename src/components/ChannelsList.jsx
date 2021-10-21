@@ -1,5 +1,5 @@
 import React from 'react';
-import Channel from '../Channel';
+import Channel from './Channel';
 
 const ChannelsList = ({
   channels, current, changeChannel, onRename, onDelete, isProccessed,

@@ -7,7 +7,7 @@ import * as yup from 'yup';
 import { Button } from 'react-bootstrap';
 import cn from 'classnames';
 import _ from 'lodash';
-import { UserContext } from '../../context.js';
+import { UserContext } from '../context.js';
 
 const schema = yup.object().shape({
   userName: yup.string().required(),
