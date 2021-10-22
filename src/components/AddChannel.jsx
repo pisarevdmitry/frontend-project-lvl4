@@ -16,7 +16,7 @@ const AddChannel = ({ close }) => {
   const { t } = useTranslation();
   const { addChannel } = useContext(SocketContext);
   const handleSubmit = ({ name }) => {
-    addChannel({ name }, (() => close()));
+    addChannel({ name }).then(() => close());
   };
 
   useEffect(() => {

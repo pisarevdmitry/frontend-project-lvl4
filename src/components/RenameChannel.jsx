@@ -17,7 +17,7 @@ const RenameChannel = ({ close }) => {
   const { renameChannel } = useContext(SocketContext);
   const inputEl = useRef(null);
   const handleSubmit = ({ name }) => {
-    renameChannel({ name, id: renamingChannel.id }, (() => close()));
+    renameChannel({ name, id: renamingChannel.id }).then(() => close());
   };
 
   useEffect(() => {

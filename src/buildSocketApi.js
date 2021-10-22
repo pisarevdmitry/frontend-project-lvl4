@@ -1,12 +1,6 @@
 /* eslint-disable functional/no-let, functional/no-this-expression */
 import store, { actions } from './slices/index.js';
 
-const onTimeoutExpire = () => store.dispatch(actions.finishProccessing());
-const handleSuccess = (cb) => () => {
-  store.dispatch(actions.finishProccessing());
-  cb();
-};
-
 const withTimeout = (onSuccess, onTimeout, timeout) => {
   let called = false;
 
@@ -23,8 +17,20 @@ const withTimeout = (onSuccess, onTimeout, timeout) => {
     onSuccess.apply(this, args);
   };
 };
-
 const TIMER = 5000;
+
+const PromisifySocket = (fn) => (...args) => new Promise((resolve, reject) => {
+  store.dispatch(actions.startProccessing());
+  const onSuccess = () => {
+    store.dispatch(actions.finishProccessing());
+    resolve();
+  };
+  const onTimeoutExpire1 = () => {
+    store.dispatch(actions.finishProccessing());
+    reject();
+  };
+  fn(...args, withTimeout(onSuccess, onTimeoutExpire1, TIMER));
+});
 
 const buildtSocketApi = (socketClient) => {
   socketClient.on('disconnect', () => store.dispatch(actions.lostConnection()));
@@ -36,26 +42,10 @@ const buildtSocketApi = (socketClient) => {
       socketClient.on('renameChannel', (channel) => store.dispatch(actions.renameChannel({ channel })));
       socketClient.on('removeChannel', ({ id }) => store.dispatch(actions.deleteChannel({ id })));
     },
-    sendMessage: (data, onSuccess) => {
-      store.dispatch(actions.startProccessing());
-      const successCb = handleSuccess(onSuccess);
-      socketClient.emit('newMessage', data, withTimeout(successCb, onTimeoutExpire, TIMER));
-    },
-    addChannel: (data, onSuccess) => {
-      store.dispatch(actions.startProccessing());
-      const successCb = handleSuccess(onSuccess);
-      socketClient.emit('newChannel', data, withTimeout(successCb, onTimeoutExpire, TIMER));
-    },
-    deleteChannel: (data, onSuccess) => {
-      store.dispatch(actions.startProccessing());
-      const successCb = handleSuccess(onSuccess);
-      socketClient.emit('removeChannel', data, withTimeout(successCb, onTimeoutExpire, TIMER));
-    },
-    renameChannel: (data, onSuccess) => {
-      store.dispatch(actions.startProccessing());
-      const successCb = handleSuccess(onSuccess);
-      socketClient.emit('renameChannel', data, withTimeout(successCb, onTimeoutExpire, TIMER));
-    },
+    sendMessage: PromisifySocket((...args) => socketClient.emit('newMessage', ...args)),
+    addChannel: PromisifySocket((...args) => socketClient.emit('newChannel', ...args)),
+    deleteChannel: PromisifySocket((...args) => socketClient.emit('removeChannel', ...args)),
+    renameChannel: PromisifySocket((...args) => socketClient.emit('renameChannel', ...args)),
     unsubscribe: () => {
       socketClient.removeAllListeners('newMessage');
       socketClient.removeAllListeners('newChannel');

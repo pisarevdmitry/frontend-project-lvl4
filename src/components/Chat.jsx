@@ -47,10 +47,10 @@ const Chat = () => {
   );
   const addMessage = useCallback(
     ({ message }, cb) => {
-      sendMessage(
-        { channelId: currentChannelId, userName: user.userName, body: message },
-        () => cb(),
-      );
+      sendMessage({ channelId: currentChannelId, userName: user.userName, body: message })
+        .then(() => {
+          cb();
+        });
     },
     [currentChannelId, user, sendMessage],
   );

@@ -13,7 +13,7 @@ const DeleteChannel = ({ close }) => {
   const handleClick = useCallback(
     () => {
       setDisabled(true);
-      deleteChannel({ id: channelId }, () => close());
+      deleteChannel({ id: channelId }).then(() => close());
     },
     [channelId, deleteChannel, close],
   );
