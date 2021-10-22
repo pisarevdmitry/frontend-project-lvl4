@@ -10,6 +10,7 @@ import { SocketContext } from './context.js';
 import store from './slices';
 import App from './App.jsx';
 import buildtSocketApi from './buildSocketApi.js';
+import AuthProvider from './AuthProvider.jsx';
 
 const init = (socketClient = io()) => {
   const i18Instance = i18n.createInstance();
@@ -28,7 +29,9 @@ const init = (socketClient = io()) => {
   return (
     <Provider store={store}>
       <SocketContext.Provider value={socketApi}>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </SocketContext.Provider>
     </Provider>
   );

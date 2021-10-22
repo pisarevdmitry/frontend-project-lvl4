@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { UserContext } from './context.js';
@@ -12,16 +12,9 @@ import NotFoundPage from './components/NotFoundPage';
 import Modal from './components/Modal';
 import { getModalStatus } from './selectors';
 import { actions } from './slices';
-import buildAuthApi, { TOKEN_KEY } from './buildAuthApi.js';
-
-const getUserData = () => {
-  const storageData = localStorage.getItem(TOKEN_KEY);
-  return JSON.parse(storageData);
-};
 
 const App = () => {
-  const [user, updateUser] = useState(getUserData());
-  const authApi = buildAuthApi(updateUser);
+  const { user, logOut } = useContext(UserContext);
   const { isOpened, type } = useSelector(getModalStatus);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -31,25 +24,25 @@ const App = () => {
     [dispatch],
   );
   return (
-    <UserContext.Provider value={{ user, ...authApi }}>
+    <>
       <div className="d-flex flex-column h-100" aria-hidden={isOpened}>
         <Router>
           <Switch>
             <Route exact path="/">
               <PrivateRoute redirectPath="/login">
-                <Header user={user} logout={authApi.logOut} />
+                <Header user={user} logout={logOut} />
                 <Chat />
               </PrivateRoute>
             </Route>
             <Route exact path="/login">
               <GuestOnlyRoute redirectPath="/">
-                <Header user={user} logout={authApi.logOut} />
+                <Header user={user} logout={logOut} />
                 <LoginPage />
               </GuestOnlyRoute>
             </Route>
             <Route exact path="/signup">
               <GuestOnlyRoute redirectPath="/">
-                <Header user={user} logout={authApi.logOut} />
+                <Header user={user} logout={logOut} />
                 <SignUpPage />
               </GuestOnlyRoute>
             </Route>
@@ -60,7 +53,7 @@ const App = () => {
         </Router>
       </div>
       <Modal isOpened={isOpened} type={type} handleClose={closeModal} />
-    </UserContext.Provider>
+    </>
   );
 };
 
