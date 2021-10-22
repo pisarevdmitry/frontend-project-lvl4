@@ -9,7 +9,7 @@ import { ru, en } from './locales/index.js';
 import { SocketContext } from './context.js';
 import store from './slices';
 import App from './App.jsx';
-import buildtSocketApi from './buildSocketApi.js';
+import buildSocketApi from './buildSocketApi.js';
 import AuthProvider from './AuthProvider.jsx';
 
 const init = (socketClient = io()) => {
@@ -25,7 +25,7 @@ const init = (socketClient = io()) => {
         escapeValue: false,
       },
     });
-  const socketApi = buildtSocketApi(socketClient);
+  const socketApi = buildSocketApi(socketClient);
   return (
     <Provider store={store}>
       <SocketContext.Provider value={socketApi}>
