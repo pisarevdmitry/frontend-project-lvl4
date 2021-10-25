@@ -16,7 +16,7 @@ const AuthProvider = ({ children }) => {
     .then(({ data }) => {
       const updatedUser = { token: data.token, userName: data.username };
       localStorage.setItem(TOKEN_KEY,
-        JSON.stringify(user));
+        JSON.stringify(updatedUser));
       updateUser(updatedUser);
     })
     .catch(() => {
@@ -26,7 +26,7 @@ const AuthProvider = ({ children }) => {
     .then(({ data }) => {
       const updatedUser = { token: data.token, userName: data.username };
       localStorage.setItem(TOKEN_KEY,
-        JSON.stringify(user));
+        JSON.stringify(updatedUser));
       updateUser(updatedUser);
     })
     .catch((e) => {

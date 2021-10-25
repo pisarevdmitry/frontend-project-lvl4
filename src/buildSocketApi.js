@@ -1,6 +1,8 @@
 /* eslint-disable functional/no-let, functional/no-this-expression */
 import store, { actions } from './slices/index.js';
 
+const TIMER = 5000;
+
 const withTimeout = (onSuccess, onTimeout, timeout) => {
   let called = false;
 
@@ -17,7 +19,6 @@ const withTimeout = (onSuccess, onTimeout, timeout) => {
     onSuccess.apply(this, args);
   };
 };
-const TIMER = 5000;
 
 const PromisifySocket = (fn) => (...args) => new Promise((resolve, reject) => {
   store.dispatch(actions.startProccessing());
@@ -25,11 +26,11 @@ const PromisifySocket = (fn) => (...args) => new Promise((resolve, reject) => {
     store.dispatch(actions.finishProccessing());
     resolve();
   };
-  const onTimeoutExpire1 = () => {
+  const onTimeoutExpire = () => {
     store.dispatch(actions.finishProccessing());
     reject();
   };
-  fn(...args, withTimeout(onSuccess, onTimeoutExpire1, TIMER));
+  fn(...args, withTimeout(onSuccess, onTimeoutExpire, TIMER));
 });
 
 const buildtSocketApi = (socketClient) => {

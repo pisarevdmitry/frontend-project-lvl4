@@ -20,7 +20,9 @@ const modalTypeMapping = {
   },
 };
 
-const Modal = ({ isOpened, type, handleClose }) => {
+const Modal = ({
+  isOpened, type, handleClose, extraData,
+}) => {
   const { t } = useTranslation();
   const modalData = modalTypeMapping[type];
   return (
@@ -29,7 +31,7 @@ const Modal = ({ isOpened, type, handleClose }) => {
         <BootstrapModal.Title>{t(modalData?.headerText)}</BootstrapModal.Title>
       </BootstrapModal.Header>
       <BootstrapModal.Body>
-        {modalData?.component && <modalData.component close={handleClose} />}
+        {modalData?.component && <modalData.component close={handleClose} extraData={extraData} />}
       </BootstrapModal.Body>
     </BootstrapModal>
   );

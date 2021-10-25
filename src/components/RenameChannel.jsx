@@ -7,13 +7,13 @@ import { useTranslation } from 'react-i18next';
 import { Button } from 'react-bootstrap';
 import cn from 'classnames';
 import * as yup from 'yup';
-import { getChannelsNames, getRenamingChannel } from '../selectors';
+import { getChannelsNames, getChannelById } from '../selectors';
 import { SocketContext } from '../context.js';
 
-const RenameChannel = ({ close }) => {
+const RenameChannel = ({ close, extraData }) => {
   const channelsNames = useSelector(getChannelsNames);
-  const renamingChannel = useSelector(getRenamingChannel);
   const { t } = useTranslation();
+  const renamingChannel = useSelector(getChannelById(extraData.channelId));
   const { renameChannel } = useContext(SocketContext);
   const inputEl = useRef(null);
   const handleSubmit = ({ name }) => {

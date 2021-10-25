@@ -4,25 +4,17 @@ import _ from 'lodash';
 export const getChannelsInfo = (state) => state.channelsInfo;
 export const getLoadingStatus = (state) => state.loadingInfo.loaded;
 const getChannels = (state) => state.channelsInfo.channels;
-const getCurrentChannel = (state) => state.channelsInfo.currentChannelId;
+const getCurrentChannelId = (state) => state.channelsInfo.currentChannelId;
 const getMessages = (state) => state.messagesInfo.messages;
 export const getCurrentChannelMessages = createSelector(
   getMessages,
-  getCurrentChannel,
+  getCurrentChannelId,
   (messages, channelId) => (
     messages.filter((message) => message.channelId === channelId)
   ),
 );
-export const getCurrentChannelName = createSelector(
-  getChannels,
-  getCurrentChannel,
-  (channels, id) => {
-    const currentChannel = _.find(channels, (channel) => channel.id === id);
-    return currentChannel?.name;
-  },
-);
-export const getModalStatus = (state) => (
-  { isOpened: state.modal.isOpened, type: state.modal.type }
+export const getModalData = (state) => (
+  { isOpened: state.modal.isOpened, type: state.modal.type, extraData: state.modal.extraData }
 );
 
 export const getChannelsNames = createSelector(
@@ -32,11 +24,5 @@ export const getChannelsNames = createSelector(
 export const getExtraData = (state) => state.modal.extraData;
 export const isProccessed = (state) => state.network.status === 'proccessing';
 export const isConnectionLost = (state) => state.network.socketConnection === 'lost';
-export const getRenamingChannel = createSelector(
-  getChannels,
-  getExtraData,
-  (channels, { channelId }) => {
-    const channel = _.find(channels, (channelItem) => channelItem.id === channelId);
-    return channel;
-  },
-);
+export const getChannelById = (id) => createSelector(getChannels,
+  (channels) => _.find(channels, (channelItem) => channelItem.id === id));

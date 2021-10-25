@@ -10,12 +10,12 @@ import LoginPage from './components/LoginPage';
 import SignUpPage from './components/SignUpPage';
 import NotFoundPage from './components/NotFoundPage';
 import Modal from './components/Modal';
-import { getModalStatus } from './selectors';
+import { getModalData } from './selectors';
 import { actions } from './slices';
 
 const App = () => {
   const { user, logOut } = useContext(UserContext);
-  const { isOpened, type } = useSelector(getModalStatus);
+  const { isOpened, type, extraData } = useSelector(getModalData);
   const dispatch = useDispatch();
   useEffect(() => {
   }, []);
@@ -52,7 +52,7 @@ const App = () => {
           </Switch>
         </Router>
       </div>
-      <Modal isOpened={isOpened} type={type} handleClose={closeModal} />
+      <Modal isOpened={isOpened} type={type} handleClose={closeModal} extraData={extraData} />
     </>
   );
 };

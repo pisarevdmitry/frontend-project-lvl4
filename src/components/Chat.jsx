@@ -5,9 +5,9 @@ import { Button } from 'react-bootstrap';
 import {
   getChannelsInfo,
   getCurrentChannelMessages,
-  getCurrentChannelName,
   isProccessed as isProccessedSelector,
   isConnectionLost as isConnectionLostSelector,
+  getChannelById,
 } from '../selectors';
 import { UserContext, SocketContext } from '../context.js';
 import { actions } from '../slices';
@@ -21,7 +21,7 @@ const Chat = () => {
   const { subscribe, sendMessage, unsubscribe } = useContext(SocketContext);
   const { t } = useTranslation();
   const { channels, currentChannelId, loaded } = useSelector(getChannelsInfo);
-  const currentChannelName = useSelector(getCurrentChannelName);
+  const currentChannel = useSelector(getChannelById(currentChannelId));
   const messages = useSelector(getCurrentChannelMessages);
   const isProccessed = useSelector(isProccessedSelector);
   const isConnectionLost = useSelector(isConnectionLostSelector);
@@ -89,7 +89,7 @@ const Chat = () => {
           <div className="d-flex flex-column h-100">
             <div className="bg-light mb-4 p-3 shadow-sm small">
               <p className="m-0">
-                <b>{`# ${currentChannelName}`}</b>
+                <b>{`# ${currentChannel?.name}`}</b>
               </p>
               <span className="text-muted">{t('chat.message', { count: messages.length })}</span>
             </div>
