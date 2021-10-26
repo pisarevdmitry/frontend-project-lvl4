@@ -6,11 +6,10 @@ import { io } from 'socket.io-client';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { ru, en } from './locales/index.js';
-import { SocketContext } from './context.js';
 import store from './slices';
 import App from './App.jsx';
-import buildSocketApi from './buildSocketApi.js';
 import AuthProvider from './AuthProvider.jsx';
+import SocketProvider from './SocketProvider.jsx';
 
 const init = (socketClient = io()) => {
   const i18Instance = i18n.createInstance();
@@ -25,14 +24,13 @@ const init = (socketClient = io()) => {
         escapeValue: false,
       },
     });
-  const socketApi = buildSocketApi(socketClient);
   return (
     <Provider store={store}>
-      <SocketContext.Provider value={socketApi}>
+      <SocketProvider socketClient={socketClient}>
         <AuthProvider>
           <App />
         </AuthProvider>
-      </SocketContext.Provider>
+      </SocketProvider>
     </Provider>
   );
 };
