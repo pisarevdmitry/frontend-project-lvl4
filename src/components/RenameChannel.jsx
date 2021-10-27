@@ -1,5 +1,5 @@
 import React, {
-  useContext, useRef, useEffect,
+  useContext, useRef, useEffect, useMemo,
 } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
@@ -13,7 +13,10 @@ import { SocketContext } from '../context.js';
 const RenameChannel = ({ close, extraData }) => {
   const channelsNames = useSelector(getChannelsNames);
   const { t } = useTranslation();
-  const renamingChannel = useSelector(getChannelById(extraData.channelId));
+  const getRenamigChannel = useMemo(
+    () => getChannelById(extraData.channelId), [extraData.channelId],
+  );
+  const renamingChannel = useSelector(getRenamigChannel);
   const { renameChannel } = useContext(SocketContext);
   const inputEl = useRef(null);
   const handleSubmit = ({ name }) => {

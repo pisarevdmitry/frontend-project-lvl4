@@ -1,4 +1,6 @@
-import React, { useEffect, useContext, useCallback } from 'react';
+import React, {
+  useEffect, useContext, useCallback, useMemo,
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'react-bootstrap';
@@ -21,7 +23,8 @@ const Chat = () => {
   const { subscribe, sendMessage, unsubscribe } = useContext(SocketContext);
   const { t } = useTranslation();
   const { channels, currentChannelId, loaded } = useSelector(getChannelsInfo);
-  const currentChannel = useSelector(getChannelById(currentChannelId));
+  const getCurrentChannel = useMemo(() => getChannelById(currentChannelId), [currentChannelId]);
+  const currentChannel = useSelector(getCurrentChannel);
   const messages = useSelector(getCurrentChannelMessages);
   const isProccessed = useSelector(isProccessedSelector);
   const isConnectionLost = useSelector(isConnectionLostSelector);
