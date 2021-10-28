@@ -1,10 +1,10 @@
 /* eslint-disable functional/no-let, functional/no-this-expression */
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { SocketContext } from './context.js';
 import { actions } from './slices/index.js';
 
 const TIMER = 5000;
+const SocketContext = React.createContext();
 
 const withTimeout = (onSuccess, onTimeout, timeout) => {
   let called = false;
@@ -69,3 +69,4 @@ const SocketProvider = ({ children, socketClient }) => {
 };
 
 export default SocketProvider;
+export { SocketContext };

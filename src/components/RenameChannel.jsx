@@ -8,7 +8,7 @@ import { Button } from 'react-bootstrap';
 import cn from 'classnames';
 import * as yup from 'yup';
 import { getChannelsNames, getChannelById } from '../selectors';
-import { SocketContext } from '../context.js';
+import { SocketContext } from '../SocketProvider';
 
 const RenameChannel = ({ close, extraData }) => {
   const channelsNames = useSelector(getChannelsNames);

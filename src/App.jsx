@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { UserContext } from './context.js';
+import { AuthContext } from './AuthProvider';
 import PrivateRoute from './components/PrivateRoute';
 import GuestOnlyRoute from './components/GuestOnlyRoute';
 import Header from './components/Header';
@@ -14,7 +14,7 @@ import { getModalData } from './selectors';
 import { actions } from './slices';
 
 const App = () => {
-  const { user, logOut } = useContext(UserContext);
+  const { user, logOut } = useContext(AuthContext);
   const { isOpened, type, extraData } = useSelector(getModalData);
   const dispatch = useDispatch();
   useEffect(() => {

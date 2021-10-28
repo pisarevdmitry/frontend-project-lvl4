@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { getExtraData } from '../selectors';
-import { SocketContext } from '../context.js';
+import { SocketContext } from '../SocketProvider';
 
 const DeleteChannel = ({ close }) => {
   const { channelId } = useSelector(getExtraData);

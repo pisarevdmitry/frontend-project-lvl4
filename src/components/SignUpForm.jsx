@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import { Button } from 'react-bootstrap';
 import cn from 'classnames';
-import { UserContext } from '../context.js';
+import { AuthContext } from '../AuthProvider';
 
 const schema = yup.object().shape({
   userName: yup.string().required('errors.required').min(3, 'errors.range').max(20, 'errors.range'),
@@ -15,7 +15,7 @@ const schema = yup.object().shape({
 });
 
 const SignUpForm = () => {
-  const { signUp } = useContext(UserContext);
+  const { signUp } = useContext(AuthContext);
   const { t } = useTranslation();
   const inputEl = useRef(null);
   useEffect(() => {

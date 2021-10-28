@@ -11,7 +11,8 @@ import {
   isConnectionLost as isConnectionLostSelector,
   getChannelById,
 } from '../selectors';
-import { UserContext, SocketContext } from '../context.js';
+import { SocketContext } from '../SocketProvider';
+import { AuthContext } from '../AuthProvider';
 import { actions } from '../slices';
 import ChannelsList from './ChannelsList';
 import MessagesBox from './MessagesBox';
@@ -19,7 +20,7 @@ import AddMessage from './AddMessage';
 import Loader from './Loader';
 
 const Chat = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useContext(AuthContext);
   const { subscribe, sendMessage, unsubscribe } = useContext(SocketContext);
   const { t } = useTranslation();
   const { channels, currentChannelId, loaded } = useSelector(getChannelsInfo);

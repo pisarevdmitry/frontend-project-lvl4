@@ -8,7 +8,7 @@ import cn from 'classnames';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { getChannelsNames } from '../selectors';
-import { SocketContext } from '../context.js';
+import { SocketContext } from '../SocketProvider';
 
 const AddChannel = ({ close }) => {
   const channelsNames = useSelector(getChannelsNames);

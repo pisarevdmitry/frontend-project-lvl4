@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { UserContext } from './context.js';
 import apiRoutes from './routes.js';
 
+const AuthContext = React.createContext();
 const TOKEN_KEY = 'APP_KEY';
 
 const getUserData = () => {
@@ -39,13 +39,14 @@ const AuthProvider = ({ children }) => {
     updateUser(null);
   };
   return (
-    <UserContext.Provider value={{
+    <AuthContext.Provider value={{
       logIn, signUp, logOut, user,
     }}
     >
       {children}
-    </UserContext.Provider>
+    </AuthContext.Provider>
   );
 };
 
 export default AuthProvider;
+export { AuthContext };
