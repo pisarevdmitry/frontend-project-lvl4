@@ -1,4 +1,4 @@
-/* eslint-disable functional/no-let, functional/no-this-expression */
+/* eslint-disable functional/no-let */
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { actions } from './slices/index.js';
