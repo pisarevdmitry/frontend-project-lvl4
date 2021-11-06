@@ -10,7 +10,7 @@ html.h-100(lang="en")
     if process.env.NODE_ENV === 'production'
       script(type="text/javascript").
         var _rollbarConfig = {
-          accessToken: `${process.env.USER}`,
+          accessToken: '#{process.env.ROLLBAR}',
           captureUncaught: true,
           captureUnhandledRejections: true,
         payload: {
