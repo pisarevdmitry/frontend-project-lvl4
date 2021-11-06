@@ -1,4 +1,5 @@
 /* eslint-disable  */
+console.log('development');
 var _rollbarConfig = {
   accessToken: '3622bbf2a3cb4cbf9a0a73bd29c6bc62',
   captureUncaught: true,

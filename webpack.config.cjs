@@ -1,13 +1,12 @@
 // @ts-check
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const webpack = require('webpack');
 
 const mode = process.env.NODE_ENV || 'development';
-
 module.exports = {
   entry: {
     main: path.join(__dirname, 'src', 'index.jsx'),
-    rollbar: path.join(__dirname, 'src', 'rollbar.js'),
   },
   mode,
   resolve: {
@@ -32,6 +31,9 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin({
       filename: 'styles.css',
+    }),
+    new webpack.DefinePlugin({
+      'process.env.ROLLBAR': JSON.stringify(process.env.ROLLBAR),
     }),
   ],
   module: {
