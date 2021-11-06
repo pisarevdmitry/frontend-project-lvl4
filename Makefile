@@ -4,6 +4,7 @@ start:
 	heroku local -f Procfile.dev
 
 start-backend:
+	TEST='hello'
 	npx nodemon bin/slack.js
 
 start-frontend:
