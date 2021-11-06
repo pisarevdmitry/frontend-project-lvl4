@@ -9,10 +9,12 @@ import { ru, en } from './locales/index.js';
 import store from './slices';
 import App from './App.jsx';
 import AuthProvider from './AuthProvider.jsx';
-import SocketProvider from './SocketProvider.jsx';
+import { SocketContext } from './context';
+import buildSocketApi from './buildSocketApi.js';
 
 const init = (socketClient = io()) => {
   const i18Instance = i18n.createInstance();
+  const socketApi = buildSocketApi(socketClient);
   return i18Instance
     .use(initReactI18next)
     .init({
@@ -25,11 +27,11 @@ const init = (socketClient = io()) => {
     }).then(() => (
       <Provider store={store}>
         <I18nextProvider i18n={i18Instance}>
-          <SocketProvider socketClient={socketClient}>
+          <SocketContext.Provider value={socketApi}>
             <AuthProvider>
               <App />
             </AuthProvider>
-          </SocketProvider>
+          </SocketContext.Provider>
         </I18nextProvider>
       </Provider>
     ));

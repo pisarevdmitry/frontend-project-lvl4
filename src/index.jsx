@@ -1,4 +1,3 @@
-/* eslint-disable  */
 import '../assets/application.scss';
 import { render } from 'react-dom';
 import init from './init.jsx';

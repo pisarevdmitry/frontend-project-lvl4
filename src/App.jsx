@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { AuthContext } from './AuthProvider';
+import { AuthContext } from './context';
 import PrivateRoute from './components/PrivateRoute';
 import GuestOnlyRoute from './components/GuestOnlyRoute';
 import Header from './components/Header';

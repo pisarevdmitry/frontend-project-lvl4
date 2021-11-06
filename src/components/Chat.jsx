@@ -11,8 +11,7 @@ import {
   isConnectionLost as isConnectionLostSelector,
   getChannelById,
 } from '../selectors';
-import { SocketContext } from '../SocketProvider';
-import { AuthContext } from '../AuthProvider';
+import { SocketContext, AuthContext } from '../context';
 import { actions } from '../slices';
 import ChannelsList from './ChannelsList';
 import MessagesBox from './MessagesBox';

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import apiRoutes from './routes.js';
+import { AuthContext } from './context.jsx';
 
-const AuthContext = React.createContext();
 const TOKEN_KEY = 'APP_KEY';
 
 const getUserData = () => {
@@ -49,4 +49,3 @@ const AuthProvider = ({ children }) => {
 };
 
 export default AuthProvider;
-export { AuthContext };

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import { AuthContext } from '../AuthProvider';
+import { AuthContext } from '../context';
 
 const GuestOnlyRoute = ({ children, redirectPath }) => {
   const { user } = useContext(AuthContext);
