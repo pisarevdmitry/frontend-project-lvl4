@@ -1,13 +1,13 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 const Channel = ({
   name, id, changeChannel, current, removable, onRename, onDelete, isProccessed,
 }) => {
-  const handleClick = useCallback(() => changeChannel(id), [id, changeChannel]);
-  const handleRename = useCallback(() => onRename(id), [id, onRename]);
-  const handleDelete = useCallback(() => onDelete(id), [id, onDelete]);
+  const handleClick = () => changeChannel(id);
+  const handleRename = () => onRename(id);
+  const handleDelete = () => onDelete(id);
   const { t } = useTranslation();
   const isCurrent = id === current;
   if (removable) {
@@ -38,4 +38,4 @@ const Channel = ({
   );
 };
 
-export default React.memo(Channel);
+export default Channel;

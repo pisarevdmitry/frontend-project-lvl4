@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Modal as BootstrapModal } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -27,10 +27,7 @@ const Modal = () => {
   const { t } = useTranslation();
   const { isOpened, type, extraData } = useSelector(getModalData);
   const dispatch = useDispatch();
-  const closeModal = useCallback(
-    () => dispatch(actions.closeModal()),
-    [dispatch],
-  );
+  const closeModal = () => dispatch(actions.closeModal());
   const modalData = modalTypeMapping[type];
   return (
     <BootstrapModal centered show={isOpened} onHide={closeModal}>

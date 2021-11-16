@@ -1,5 +1,5 @@
 import React, {
-  useEffect, useContext, useCallback, useMemo,
+  useEffect, useContext, useMemo,
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -41,32 +41,19 @@ const Chat = () => {
       unsubscribe();
     };
   }, [dispatch, subscribe, unsubscribe]);
-  const addChannel = useCallback(
-    () => dispatch(actions.openModal({ type: 'addChannel' })), [dispatch],
-  );
-  const renameChannel = useCallback(
-    (id) => dispatch(actions.openModal({ type: 'renameChannel', extra: { channelId: id } })), [dispatch],
-  );
-  const deleteChannel = useCallback(
-    (id) => dispatch(actions.openModal({ type: 'deleteChannel', extra: { channelId: id } })), [dispatch],
-    [],
-  );
-  const addMessage = useCallback(
-    ({ message }, cb) => {
-      sendMessage({ channelId: currentChannelId, userName: user.userName, body: message })
-        .then(() => {
-          cb();
-        });
-    },
-    [currentChannelId, user, sendMessage],
-  );
-  const changeChannel = useCallback(
-    (id) => {
-      if (id === currentChannelId) return;
-      dispatch(actions.changeChannel({ id }));
-    },
-    [currentChannelId, dispatch],
-  );
+  const addChannel = () => dispatch(actions.openModal({ type: 'addChannel' }));
+  const renameChannel = (id) => dispatch(actions.openModal({ type: 'renameChannel', extra: { channelId: id } }));
+  const deleteChannel = (id) => dispatch(actions.openModal({ type: 'deleteChannel', extra: { channelId: id } }));
+  const addMessage = ({ message }, cb) => {
+    sendMessage({ channelId: currentChannelId, userName: user.userName, body: message })
+      .then(() => {
+        cb();
+      });
+  };
+  const changeChannel = (id) => {
+    if (id === currentChannelId) return;
+    dispatch(actions.changeChannel({ id }));
+  };
   if (!loaded) return <Loader />;
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow" aria-hidden={isOpened}>

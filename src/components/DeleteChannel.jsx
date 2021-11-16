@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -10,13 +10,10 @@ const DeleteChannel = ({ close }) => {
   const { deleteChannel } = useContext(ApiContext);
   const { t } = useTranslation();
   const [disabled, setDisabled] = useState(false);
-  const handleClick = useCallback(
-    () => {
-      setDisabled(true);
-      deleteChannel({ id: channelId }).then(() => close());
-    },
-    [channelId, deleteChannel, close],
-  );
+  const handleClick = () => {
+    setDisabled(true);
+    deleteChannel({ id: channelId }).then(() => close());
+  };
   return (
     <>
       <p className="lead">{t('sure')}</p>
@@ -28,4 +25,4 @@ const DeleteChannel = ({ close }) => {
   );
 };
 
-export default React.memo(DeleteChannel);
+export default DeleteChannel;

@@ -57,4 +57,4 @@ const AddChannel = ({ close }) => {
   );
 };
 
-export default React.memo(AddChannel);
+export default AddChannel;

@@ -8,6 +8,7 @@ import Chat from './components/Chat';
 import LoginPage from './components/LoginPage';
 import SignUpPage from './components/SignUpPage';
 import NotFoundPage from './components/NotFoundPage';
+import routes from './routes';
 
 const App = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -17,22 +18,22 @@ const App = () => {
         <Router>
           <Header user={user} logout={logOut} />
           <Switch>
-            <Route exact path="/">
-              <PrivateRoute redirectPath="/login">
+            <Route exact path={routes.mainRoute()}>
+              <PrivateRoute redirectPath={routes.loginRoute()}>
                 <Chat />
               </PrivateRoute>
             </Route>
-            <Route exact path="/login">
-              <GuestOnlyRoute redirectPath="/">
+            <Route exact path={routes.loginRoute()}>
+              <GuestOnlyRoute redirectPath={routes.mainRoute()}>
                 <LoginPage />
               </GuestOnlyRoute>
             </Route>
-            <Route exact path="/signup">
-              <GuestOnlyRoute redirectPath="/">
+            <Route exact path={routes.signUpRoute()}>
+              <GuestOnlyRoute redirectPath={routes.mainRoute()}>
                 <SignUpPage />
               </GuestOnlyRoute>
             </Route>
-            <Route path="*">
+            <Route path={routes.notFoundRoutes()}>
               <NotFoundPage />
             </Route>
           </Switch>

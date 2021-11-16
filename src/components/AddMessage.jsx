@@ -57,4 +57,4 @@ const AddMessage = ({ onSubmit, currentChannel, isProccessed }) => {
   );
 };
 
-export default React.memo(AddMessage);
+export default AddMessage;

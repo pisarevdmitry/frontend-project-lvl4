@@ -21,4 +21,4 @@ const ChannelsList = ({
   </ul>
 );
 
-export default React.memo(ChannelsList);
+export default ChannelsList;
