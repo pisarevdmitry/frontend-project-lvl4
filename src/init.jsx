@@ -14,8 +14,7 @@ import { ApiContext } from './context';
 import buildSocketApi from './buildSocketApi.js';
 
 const rollbarConfig = {
-  // eslint-disable-next-line no-undef
-  accessToken: ROLLBAR,
+  accessToken: process.env.ROLLBAR,
   environment: 'production',
 };
 

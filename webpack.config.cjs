@@ -32,9 +32,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'styles.css',
     }),
-    new webpack.DefinePlugin({
-      ROLLBAR: JSON.stringify(process.env.ROLLBAR),
-    }),
+    new webpack.EnvironmentPlugin({ ROLLBAR: 'my rollbar key' }),
   ],
   module: {
     rules: [
