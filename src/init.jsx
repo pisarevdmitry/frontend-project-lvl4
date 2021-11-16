@@ -5,12 +5,19 @@ import { Provider } from 'react-redux';
 import { io } from 'socket.io-client';
 import i18n from 'i18next';
 import { initReactI18next, I18nextProvider } from 'react-i18next';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import { ru, en } from './locales/index.js';
 import store from './slices';
 import App from './App.jsx';
 import AuthProvider from './AuthProvider.jsx';
-import { SocketContext } from './context';
+import { ApiContext } from './context';
 import buildSocketApi from './buildSocketApi.js';
+
+const rollbarConfig = {
+  // eslint-disable-next-line no-undef
+  accessToken: ROLLBAR,
+  environment: 'production',
+};
 
 const init = (socketClient = io()) => {
   const i18Instance = i18n.createInstance();
@@ -25,15 +32,20 @@ const init = (socketClient = io()) => {
         escapeValue: false,
       },
     }).then(() => (
-      <Provider store={store}>
-        <I18nextProvider i18n={i18Instance}>
-          <SocketContext.Provider value={socketApi}>
-            <AuthProvider>
-              <App />
-            </AuthProvider>
-          </SocketContext.Provider>
-        </I18nextProvider>
-      </Provider>
+      <RollbarProvider config={rollbarConfig}>
+        <ErrorBoundary>
+          <Provider store={store}>
+            <I18nextProvider i18n={i18Instance}>
+              <ApiContext.Provider value={socketApi}>
+                <AuthProvider>
+                  <App />
+                </AuthProvider>
+              </ApiContext.Provider>
+            </I18nextProvider>
+          </Provider>
+        </ErrorBoundary>
+      </RollbarProvider>
+
     ));
 };
 

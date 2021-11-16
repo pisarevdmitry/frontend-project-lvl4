@@ -8,13 +8,13 @@ import cn from 'classnames';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { getChannelsNames } from '../selectors';
-import { SocketContext } from '../context';
+import { ApiContext } from '../context';
 
 const AddChannel = ({ close }) => {
   const channelsNames = useSelector(getChannelsNames);
   const inputEl = useRef(null);
   const { t } = useTranslation();
-  const { addChannel } = useContext(SocketContext);
+  const { addChannel } = useContext(ApiContext);
   const handleSubmit = ({ name }) => {
     addChannel({ name }).then(() => close());
   };

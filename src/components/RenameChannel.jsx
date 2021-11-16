@@ -8,7 +8,7 @@ import { Button } from 'react-bootstrap';
 import cn from 'classnames';
 import * as yup from 'yup';
 import { getChannelsNames, getChannelById } from '../selectors';
-import { SocketContext } from '../context';
+import { ApiContext } from '../context';
 
 const RenameChannel = ({ close, extraData }) => {
   const channelsNames = useSelector(getChannelsNames);
@@ -17,7 +17,7 @@ const RenameChannel = ({ close, extraData }) => {
     () => getChannelById(extraData.channelId), [extraData.channelId],
   );
   const renamingChannel = useSelector(getRenamigChannel);
-  const { renameChannel } = useContext(SocketContext);
+  const { renameChannel } = useContext(ApiContext);
   const inputEl = useRef(null);
   const handleSubmit = ({ name }) => {
     renameChannel({ name, id: renamingChannel.id }).then(() => close());

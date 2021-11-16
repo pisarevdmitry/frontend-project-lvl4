@@ -10,19 +10,22 @@ import {
   isProccessed as isProccessedSelector,
   isConnectionLost as isConnectionLostSelector,
   getChannelById,
+  getModalData,
 } from '../selectors';
-import { SocketContext, AuthContext } from '../context';
+import { ApiContext, AuthContext } from '../context';
 import { actions } from '../slices';
 import ChannelsList from './ChannelsList';
 import MessagesBox from './MessagesBox';
 import AddMessage from './AddMessage';
 import Loader from './Loader';
+import Modal from './Modal';
 
 const Chat = () => {
   const { user } = useContext(AuthContext);
-  const { subscribe, sendMessage, unsubscribe } = useContext(SocketContext);
+  const { subscribe, sendMessage, unsubscribe } = useContext(ApiContext);
   const { t } = useTranslation();
   const { channels, currentChannelId, loaded } = useSelector(getChannelsInfo);
+  const { isOpened } = useSelector(getModalData);
   const getCurrentChannel = useMemo(() => getChannelById(currentChannelId), [currentChannelId]);
   const currentChannel = useSelector(getCurrentChannel);
   const messages = useSelector(getCurrentChannelMessages);
@@ -66,7 +69,7 @@ const Chat = () => {
   );
   if (!loaded) return <Loader />;
   return (
-    <div className="container h-100 my-4 overflow-hidden rounded shadow">
+    <div className="container h-100 my-4 overflow-hidden rounded shadow" aria-hidden={isOpened}>
       <div className="row h-100 bg-white flex-md-row">
         <div className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
           <div className="d-flex justify-content-between mb-2 ps-4 pe-2">
@@ -105,6 +108,7 @@ const Chat = () => {
               />
               { isConnectionLost && <div className="text-danger">{t('errors.connectionLost')}</div>}
             </div>
+            <Modal />
           </div>
         </div>
 

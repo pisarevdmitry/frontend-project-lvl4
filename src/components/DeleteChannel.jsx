@@ -3,11 +3,11 @@ import { Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { getExtraData } from '../selectors';
-import { SocketContext } from '../context';
+import { ApiContext } from '../context';
 
 const DeleteChannel = ({ close }) => {
   const { channelId } = useSelector(getExtraData);
-  const { deleteChannel } = useContext(SocketContext);
+  const { deleteChannel } = useContext(ApiContext);
   const { t } = useTranslation();
   const [disabled, setDisabled] = useState(false);
   const handleClick = useCallback(

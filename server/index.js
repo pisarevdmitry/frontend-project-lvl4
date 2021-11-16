@@ -7,10 +7,8 @@ import fastifySocketIo from 'fastify-socket.io';
 import fastifyStatic from 'fastify-static';
 import fastifyJWT from 'fastify-jwt';
 import HttpErrors from 'http-errors';
-
 import addRoutes from './routes.js';
 
-console.log(process.env.USER);
 const { Unauthorized } = HttpErrors;
 
 // eslint-disable-next-line no-underscore-dangle

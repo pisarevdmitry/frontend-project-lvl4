@@ -15,6 +15,7 @@ const AddMessage = ({ onSubmit, currentChannel, isProccessed }) => {
     const onSuccess = () => {
       setSubmitting(false);
       resetForm();
+      inputEl.current.focus();
     };
     onSubmit(values, onSuccess);
   };
