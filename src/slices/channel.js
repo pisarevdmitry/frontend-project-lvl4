@@ -6,13 +6,12 @@ import routes from '../routes.js';
 
 export const loadData = createAsyncThunk('fetchData', async ({ token, onReject = _.noop }) => {
   const route = routes.getData();
-  try {
-    const responce = await axios.get(route, { headers: { Authorization: `Bearer ${token}` } });
-    return responce.data;
-  } catch {
-    onReject();
-    throw new Error();
-  }
+  return axios.get(route, { headers: { Authorization: `Bearer ${token}` } })
+    .then((responce) => responce.data)
+    .catch(() => {
+      onReject();
+      return Promise.reject();
+    });
 });
 
 const channelSlice = createSlice({
