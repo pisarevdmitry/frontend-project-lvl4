@@ -18,10 +18,10 @@ const Channel = ({
             <span className="me-1">#</span>
             {name}
           </Button>
-          <Dropdown.Toggle disabled={isProccessed} split variant={isCurrent && 'secondary'} id="dropdown-split-basic" />
+          <Dropdown.Toggle disabled={isProccessed} split variant={isCurrent && 'secondary'} id="dropdown-split-basic" aria-label="Управление каналом" />
           <Dropdown.Menu>
-            <Dropdown.Item onClick={handleDelete}>{t('delete')}</Dropdown.Item>
-            <Dropdown.Item onClick={handleRename}>{t('rename')}</Dropdown.Item>
+            <Dropdown.Item aria-label="Удалить" onClick={handleDelete}>{t('delete')}</Dropdown.Item>
+            <Dropdown.Item aria-label="Переименовать" onClick={handleRename}>{t('rename')}</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
 
