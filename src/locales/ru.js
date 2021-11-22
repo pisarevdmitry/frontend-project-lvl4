@@ -42,7 +42,7 @@ export default {
     messages: {
       addChannel: 'Канал создан',
       renameChannel: 'Канал переименован',
-      deleteChannel: 'Канал удален',
+      deleteChannel: 'Канал удалён',
     },
     noAccount: 'Нет аккаунта?',
     sure: 'Уверены?',
