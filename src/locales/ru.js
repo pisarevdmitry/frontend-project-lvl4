@@ -11,7 +11,7 @@ export default {
       range: 'От 3 до 20 символов',
       min: 'Не менее 6 символов',
       connectionLost: 'Потерянно соединение с сервером',
-      loadError: 'Ошибка загрузки данных',
+      loadError: 'Ошибка соединения',
     },
     chat: {
       channels: 'Каналы',
