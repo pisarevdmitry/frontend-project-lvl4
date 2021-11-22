@@ -43,6 +43,7 @@ const AddChannel = ({ close }) => {
       <div className="form-group">
         <input
           data-testid="add-channel"
+          aria-label="Имя канала"
           ref={inputEl}
           name="name"
           className={cn('mb-2', 'form-control', { 'is-invalid': formik.errors.name })}

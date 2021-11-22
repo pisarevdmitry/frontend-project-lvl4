@@ -47,6 +47,7 @@ const RenameChannel = ({ close, extraData }) => {
       <div className="form-group">
         <input
           data-testid="rename-channel"
+          label-text="Новое имя канала"
           ref={inputEl}
           name="name"
           className={cn('mb-2', 'form-control', { 'is-invalid': formik.errors.name })}

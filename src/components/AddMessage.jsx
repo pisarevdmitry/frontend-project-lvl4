@@ -35,6 +35,7 @@ const AddMessage = ({ onSubmit, currentChannel, isProccessed }) => {
         <input
           data-testid="new-message"
           name="message"
+          aria-label="Новое сообщение"
           placeholder={t('chat.addMessage')}
           className="border-0 p-0 ps-2 form-control"
           id="message"
