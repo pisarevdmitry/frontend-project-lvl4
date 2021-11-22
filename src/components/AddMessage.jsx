@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import filter from 'leo-profanity';
 import * as yup from 'yup';
 import { Button, InputGroup } from 'react-bootstrap';
 
@@ -18,7 +17,7 @@ const AddMessage = ({ onSubmit, currentChannel, isProccessed }) => {
       resetForm();
       inputEl.current.focus();
     };
-    onSubmit({ message: filter.clean(values.message) }, onSuccess);
+    onSubmit(values, onSuccess);
   };
   useEffect(() => {
     inputEl.current.focus();

@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
 import { Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import {
@@ -48,7 +49,9 @@ const Chat = () => {
   const renameChannel = (id) => dispatch(actions.openModal({ type: 'renameChannel', extra: { channelId: id } }));
   const deleteChannel = (id) => dispatch(actions.openModal({ type: 'deleteChannel', extra: { channelId: id } }));
   const addMessage = ({ message }, cb) => {
-    sendMessage({ channelId: currentChannelId, userName: user.userName, body: message })
+    sendMessage({
+      channelId: currentChannelId, userName: user.userName, body: filter.clean(message),
+    })
       .then(() => {
         cb();
       });
