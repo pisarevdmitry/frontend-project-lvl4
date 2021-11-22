@@ -39,7 +39,7 @@ const App = () => {
             </Route>
           </Switch>
         </Router>
-        <ToastContainer autoClose={2000} />
+        <ToastContainer autoClose={7000} />
       </div>
     </>
   );
