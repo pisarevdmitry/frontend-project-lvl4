@@ -39,16 +39,16 @@ export default {
       signUpName: 'Имя пользователя',
       confirmPassword: 'Подтвердите пароль',
     },
+    messages: {
+      addChannel: 'Канал создан',
+      renameChannel: 'Канал переименован',
+      deleteChannel: 'Канал удален',
+    },
     noAccount: 'Нет аккаунта?',
     sure: 'Уверены?',
     rename: 'Переименовать',
     delete: 'Удалить',
     loading: 'ЗАГРУЗКА...',
-  },
-  messages: {
-    addChannel: 'Канал Добавлен',
-    renameChannel: 'Канал Переименован',
-    deleteChannel: 'Канал Удален',
   },
 
 };
