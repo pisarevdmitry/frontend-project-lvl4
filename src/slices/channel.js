@@ -33,8 +33,7 @@ const channelSlice = createSlice({
     },
     deleteChannel: (state, { payload }) => {
       state.channels = state.channels.filter((channel) => channel.id !== payload.id);
-      const defaultChannel = state.channels.find(({ name }) => name === 'general');
-      console.log(state.channels, defaultChannel);
+      const defaultChannel = state.channels.find(({ name }) => name.toLowerCase() === 'general');
       state.currentChannelId = defaultChannel.id;
     },
   },
