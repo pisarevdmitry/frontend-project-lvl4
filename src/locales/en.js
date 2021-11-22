@@ -11,6 +11,7 @@ export default {
       range: 'min 3 symbols max 20symbols',
       min: 'min 6 symbols',
       connectionLost: 'Connection lost, trying to reconnect...',
+      loadError: 'failed load data',
     },
     chat: {
       channels: 'Channels',
@@ -18,7 +19,7 @@ export default {
       message_plural: '{{count}} messages',
       addMessage: 'type message...',
       addChannel: 'Add Channel',
-      renameChannel: 'Renam Channel',
+      renameChannel: 'Rename Channel',
       deleteChannel: 'Delete Channel',
     },
     buttons: {
@@ -37,10 +38,16 @@ export default {
       signUpName: 'Yours name',
       confirmPassword: 'confirmPassword',
     },
+    messages: {
+      addChannel: 'Channel Added',
+      renameChannel: 'Chanenel Renamed',
+      deleteChannel: 'Channel Deleted',
+    },
     noAccount: 'noAccount?',
     sure: 'Sure?',
-    rename: 'Renaim',
+    rename: 'Rename',
     delete: 'Delete',
     loading: 'LOADING...',
   },
+
 };

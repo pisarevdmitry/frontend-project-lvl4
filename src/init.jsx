@@ -1,5 +1,6 @@
 import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
+import 'react-toastify/dist/ReactToastify.css';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { io } from 'socket.io-client';

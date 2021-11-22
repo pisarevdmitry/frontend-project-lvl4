@@ -3,15 +3,22 @@ import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import routes from '../routes.js';
 
-export const loadData = createAsyncThunk('fetchData', async (token) => {
+export const loadData = createAsyncThunk('fetchData', async ({ token, onReject }) => {
   const route = routes.getData();
-  const responce = await axios.get(route, { headers: { Authorization: `Bearer ${token}` } });
-  return responce.data;
+  try {
+    const responce = await axios.get(route, { headers: { Authorization: `Bearer ${token}` } });
+    return responce.data;
+  } catch {
+    onReject();
+    throw new Error();
+  }
 });
 
 const channelSlice = createSlice({
   name: 'channelsInfo',
-  initialState: { channels: null, loaded: false, currentChannelId: null },
+  initialState: {
+    channels: null, loaded: false, currentChannelId: null,
+  },
   reducers: {
     changeChannel: (state, { payload }) => {
       state.currentChannelId = payload.id;

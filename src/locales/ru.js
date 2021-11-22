@@ -11,6 +11,7 @@ export default {
       range: 'От 3 до 20 символов',
       min: 'Не менее 6 символов',
       connectionLost: 'Потерянно соединение с сервером',
+      loadError: 'Ошибка загрузки данных',
     },
     chat: {
       channels: 'Каналы',
@@ -43,6 +44,11 @@ export default {
     rename: 'Переименовать',
     delete: 'Удалить',
     loading: 'ЗАГРУЗКА...',
+  },
+  messages: {
+    addChannel: 'Канал Добавлен',
+    renameChannel: 'Канал Переименован',
+    deleteChannel: 'Канал Удален',
   },
 
 };

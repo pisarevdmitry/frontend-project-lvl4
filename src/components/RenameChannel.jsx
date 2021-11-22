@@ -4,6 +4,7 @@ import React, {
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { Button } from 'react-bootstrap';
 import cn from 'classnames';
 import * as yup from 'yup';
@@ -20,7 +21,10 @@ const RenameChannel = ({ close, extraData }) => {
   const { renameChannel } = useContext(ApiContext);
   const inputEl = useRef(null);
   const handleSubmit = ({ name }) => {
-    renameChannel({ name, id: renamingChannel.id }).then(() => close());
+    renameChannel({ name, id: renamingChannel.id }).then(() => {
+      toast.success(t('messages.renameChannel'));
+      close();
+    });
   };
 
   useEffect(() => {

@@ -1,6 +1,7 @@
 import React, {
   useContext, useRef, useEffect,
 } from 'react';
+import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { Button } from 'react-bootstrap';
@@ -16,7 +17,10 @@ const AddChannel = ({ close }) => {
   const { t } = useTranslation();
   const { addChannel } = useContext(ApiContext);
   const handleSubmit = ({ name }) => {
-    addChannel({ name }).then(() => close());
+    addChannel({ name }).then(() => {
+      toast.success(t('messages.addChannel'));
+      close();
+    });
   };
 
   useEffect(() => {

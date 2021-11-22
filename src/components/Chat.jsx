@@ -4,6 +4,7 @@ import React, {
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import {
   getChannelsInfo,
   getCurrentChannelMessages,
@@ -24,7 +25,9 @@ const Chat = () => {
   const { user } = useContext(AuthContext);
   const { subscribe, sendMessage, unsubscribe } = useContext(ApiContext);
   const { t } = useTranslation();
-  const { channels, currentChannelId, loaded } = useSelector(getChannelsInfo);
+  const {
+    channels, currentChannelId, loaded,
+  } = useSelector(getChannelsInfo);
   const { isOpened } = useSelector(getModalData);
   const getCurrentChannel = useMemo(() => getChannelById(currentChannelId), [currentChannelId]);
   const currentChannel = useSelector(getCurrentChannel);
@@ -33,7 +36,7 @@ const Chat = () => {
   const isConnectionLost = useSelector(isConnectionLostSelector);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(actions.loadData(user.token));
+    dispatch(actions.loadData({ token: user.token, onReject: () => toast.error(t('errors.loadError')) }));
   }, [dispatch, user.token]);
   useEffect(() => {
     subscribe();

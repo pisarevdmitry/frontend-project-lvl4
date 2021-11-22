@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { getExtraData } from '../selectors';
 import { ApiContext } from '../context';
@@ -12,7 +13,10 @@ const DeleteChannel = ({ close }) => {
   const [disabled, setDisabled] = useState(false);
   const handleClick = () => {
     setDisabled(true);
-    deleteChannel({ id: channelId }).then(() => close());
+    deleteChannel({ id: channelId }).then(() => {
+      toast.success(t('messages.deleteChannel'));
+      close();
+    });
   };
   return (
     <>

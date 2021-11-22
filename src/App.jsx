@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import { AuthContext } from './context';
 import PrivateRoute from './components/PrivateRoute';
 import GuestOnlyRoute from './components/GuestOnlyRoute';
@@ -38,6 +39,7 @@ const App = () => {
             </Route>
           </Switch>
         </Router>
+        <ToastContainer autoClose={2000} />
       </div>
     </>
   );
